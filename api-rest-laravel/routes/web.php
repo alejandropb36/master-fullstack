@@ -22,3 +22,5 @@ Route::get('/pruebas/{name?}', function($name = '') {
     $texto = 'Hola ' . $name;
     return $texto;
 });
+
+Route::get('/test-orm', 'PruebasController@testOrm');
