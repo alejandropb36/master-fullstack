@@ -13,14 +13,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
 Route::get('/', function () {
     return view('welcome');
 });
 
-
+// Rutas de prueba
 Route::get('/pruebas/{name?}', function($name = '') {
     $texto = 'Hola ' . $name;
     return $texto;
 });
-
 Route::get('/test-orm', 'PruebasController@testOrm');
+Route::get('/usuario/pruebas', 'UserController@pruebas');
+Route::get('/categoria/pruebas', 'CategoryController@pruebas');
+Route::get('/post/pruebas', 'PostController@pruebas');
