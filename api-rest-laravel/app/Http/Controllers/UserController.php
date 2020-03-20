@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\User;
 
 class UserController extends Controller
 {
@@ -11,30 +12,51 @@ class UserController extends Controller
     }
 
     public function register(Request $request) {
-        // Recoger datos por post
-        $json = $request->input('json', null);
-        $params = json_decode($json); // Object
-        $params_array = json_decode($json, true); // array
-
-        var_dump($params);exit;
-
-
-
-        // Validar datos
-
-        // Cifrar contra
-
-        // Copmporbar si el usuario existe
-        
-        // Crear usuario
-
-
         $data = array(
-            'status' => 'error',
-            'code' => 404,
-            'message' => 'El usuario no se ha creado'
+            'status' => 'bad request',
+            'code' => 400,
+            'message' => 'bad request',
+            'user' => null
         );
 
+        $json = $request->input('json', null);
+        $params_array = json_decode($json, true);
+
+        if(empty($params_array)) {
+            return response()->json($data, $data['code']);
+        }
+
+        $params_array = array_map('trim', $params_array);
+
+        $validate = \Validator::make($params_array, [
+            'name' => 'required|alpha',
+            'surname' => 'required|alpha',
+            'email' => 'required|email|unique:users',
+            'password' => 'required',
+        ]);
+
+        if($validate->fails()) {
+            $data['message'] = $validate->errors();
+            $data['status'] = 'Error de validacion';
+            return response()->json($data, $data['code']);
+        }
+
+        $password = password_hash($params_array['password'], PASSWORD_BCRYPT, ['cost' => 4]);
+
+        $user = new User();
+        $user->name = $params_array['name'];
+        $user->surname = $params_array['surname'];
+        $user->email = $params_array['email'];
+        $user->password = $password;
+        $user->role = 'ROLE_USER';
+
+        $user->save();
+
+        $data['status'] = 'success';
+        $data['code'] = 200;
+        $data['message'] = 'El usuario fue creado correctamente';
+        $data['user'] = $user;
+        
         return response()->json($data, $data['code']);
     }
 
