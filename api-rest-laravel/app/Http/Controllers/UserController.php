@@ -41,7 +41,7 @@ class UserController extends Controller
             return response()->json($data, $data['code']);
         }
 
-        $password = password_hash($params_array['password'], PASSWORD_BCRYPT, ['cost' => 4]);
+        $password = hash('sha256', $params_array['password']);
 
         $user = new User();
         $user->name = $params_array['name'];
@@ -62,7 +62,13 @@ class UserController extends Controller
 
     public function login(Request $request) {
         $jwtAuth = new \JwtAuth();
-        echo $jwtAuth->singup();
-        return "Accion de login de usuario";
+
+        $email = 'alexponce36@hotmail.com';
+        $password = 'password';
+
+        $pwd = hash('sha256', $password);
+
+        
+        return response()->json($jwtAuth->singup($email, $pwd, true));
     }
 }
