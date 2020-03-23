@@ -61,6 +61,8 @@ class UserController extends Controller
     }
 
     public function login(Request $request) {
+        $jwtAuth = new \JwtAuth();
+        echo $jwtAuth->singup();
         return "Accion de login de usuario";
     }
 }
