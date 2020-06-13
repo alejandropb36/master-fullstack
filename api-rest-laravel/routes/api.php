@@ -22,3 +22,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 // Rutas de controlador de usuario
 Route::post('/register', 'UserController@register');
 Route::post('/login', 'UserController@login');
+Route::put('/users/update/{id}', 'UserController@update')->name('users.update');

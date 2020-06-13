@@ -81,4 +81,16 @@ class UserController extends Controller
         
         return response()->json($singup, 200);
     }
+
+    public function update(Request $request, $id)
+    {
+        $jwt = $request->header('Authorization');
+        $jwtAuth = new \JwtAuth();
+        $checkToken = $jwtAuth->checkToken($jwt);
+
+        return response()->json(
+            $checkToken,
+            200
+        );
+    }
 }
