@@ -19,16 +19,7 @@ class UserController extends Controller
             'user' => null
         );
 
-        $json = $request->input('json', null);
-        $params_array = json_decode($json, true);
-
-        if(empty($params_array)) {
-            return response()->json($data, $data['code']);
-        }
-
-        $params_array = array_map('trim', $params_array);
-
-        $validate = \Validator::make($params_array, [
+        $validate = \Validator::make($request->all(), [
             'name' => 'required|alpha',
             'surname' => 'required|alpha',
             'email' => 'required|email|unique:users',
@@ -41,12 +32,12 @@ class UserController extends Controller
             return response()->json($data, $data['code']);
         }
 
-        $password = hash('sha256', $params_array['password']);
+        $password = hash('sha256', $request->input('password'));
 
         $user = new User();
-        $user->name = $params_array['name'];
-        $user->surname = $params_array['surname'];
-        $user->email = $params_array['email'];
+        $user->name = $request->input('name');
+        $user->surname = $request->input('surname');
+        $user->email = $request->input('email');
         $user->password = $password;
         $user->role = 'ROLE_USER';
 
