@@ -82,15 +82,60 @@ class UserController extends Controller
         return response()->json($singup, 200);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
+        $data = array(
+            'status' => 'bad request',
+            'code' => 400,
+            'message' => 'bad request',
+            'user' => null
+        );
         $jwt = $request->header('Authorization');
         $jwtAuth = new \JwtAuth();
         $checkToken = $jwtAuth->checkToken($jwt);
+        $params = $request->all();
+
+        if($checkToken && !empty($params)) {
+            
+            $user = $jwtAuth->checkToken($jwt, true);
+            $validate = \Validator::make($params, [
+                'name' => 'required|string',
+                'surname' => 'required|string',
+                'email' => 'required|email|unique:users,email,' . $user->sub
+            ]);
+
+            if($validate->fails()) {
+                $data['message'] = $validate->errors();
+                $data['status'] = 'Error de validacion';
+                return response()->json($data, $data['code']);
+            }
+    
+
+            unset($params['id']);
+            unset($params['role']);
+            unset($params['password']);
+            unset($params['created_at']);
+            unset($params['remember_token']);
+
+            $user_update = User::where('id', $user->sub)->update($params);
+            $user_update = User::where('id', $user->sub)->ftp_rawlist();
+            $data = [
+                'code' => 200,
+                'status' => 'success',
+                'user' => $user_update
+            ];
+            
+        } else {
+            $data = [
+                'code' => 401,
+                'status' => 'Unauthorized',
+                'message' => 'Usuario no esta autenticado correctamente'
+            ];   
+        }
 
         return response()->json(
-            $checkToken,
-            200
+            $data,
+            $data['code']
         );
     }
 }
