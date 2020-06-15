@@ -22,5 +22,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 // Rutas de controlador de usuario
 Route::post('/register', 'UserController@register');
 Route::post('/login', 'UserController@login');
-Route::put('/users/update', 'UserController@update')->name('users.update');
-Route::post('/users/upload', 'UserController@upload')->name('users.upload');
+Route::put('/users/update', 'UserController@update')->name('users.update')->middleware('api.auth');
+Route::post('/users/upload', 'UserController@upload')->name('users.upload')->middleware('api.auth');

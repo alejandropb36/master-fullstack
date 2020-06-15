@@ -90,13 +90,12 @@ class UserController extends Controller
             'message' => 'bad request',
             'user' => null
         );
-        $jwt = $request->header('Authorization');
-        $jwtAuth = new \JwtAuth();
-        $checkToken = $jwtAuth->checkToken($jwt);
+        
         $params = $request->all();
 
-        if($checkToken && !empty($params)) {
-            
+        if(!empty($params)) {
+            $jwtAuth = new \JwtAuth();
+            $jwt = $request->header('Authorization');
             $user = $jwtAuth->checkToken($jwt, true);
             $validate = \Validator::make($params, [
                 'name' => 'required|string',
@@ -118,19 +117,13 @@ class UserController extends Controller
             unset($params['remember_token']);
 
             $user_update = User::where('id', $user->sub)->update($params);
-            $user_update = User::where('id', $user->sub)->ftp_rawlist();
+            $user_update = User::where('id', $user->sub)->first();
             $data = [
                 'code' => 200,
                 'status' => 'success',
                 'user' => $user_update
             ];
             
-        } else {
-            $data = [
-                'code' => 401,
-                'status' => 'Unauthorized',
-                'message' => 'Usuario no esta autenticado correctamente'
-            ];   
         }
 
         return response()->json(
