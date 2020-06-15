@@ -138,4 +138,17 @@ class UserController extends Controller
             $data['code']
         );
     }
+
+    public function upload(Request $request)
+    {
+        $data = [
+            'code' => 401,
+            'status' => 'Unauthorized',
+            'message' => 'Usuario no esta autenticado correctamente'
+        ];
+        return response(
+            $data,
+            $data['code']
+        )->header('Content-Type', 'text/plain');
+    }
 }
