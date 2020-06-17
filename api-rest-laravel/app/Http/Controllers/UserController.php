@@ -134,14 +134,27 @@ class UserController extends Controller
 
     public function upload(Request $request)
     {
-        $data = [
-            'code' => 401,
-            'status' => 'Unauthorized',
-            'message' => 'Usuario no esta autenticado correctamente'
-        ];
-        return response(
-            $data,
-            $data['code']
-        )->header('Content-Type', 'text/plain');
+        $image = $request->file('file0');
+
+        $validate = \Validator::make($request->all(), [
+            'file0' => 'required|image'
+        ]);
+
+        if(!$image || $validate->fails()) {
+            $data = [
+                'code' => 400,
+                'status' => 'Bad request',
+                'message' => 'Error al subir imagen',
+            ];
+        } else {
+            $image_name = time() . $image->getClientOriginalName();
+            \Storage::disk('users')->put($image_name, \File::get($image));
+            $data = [
+                'code' => 200,
+                'status' => 'success',
+                'image' => $image_name,
+            ];
+        }
+        return response()->json($data, $data['code']);
     }
 }
