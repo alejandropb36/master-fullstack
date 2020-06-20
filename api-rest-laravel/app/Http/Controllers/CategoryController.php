@@ -69,4 +69,34 @@ class CategoryController extends Controller
         ];
         return response()->json($data, $data['code']);
     }
+
+    public function update($id, Request $request) {
+        $validate = \Validator::make($request->all(), [
+            'name' => 'required|string'
+        ]);
+
+
+        if($validate->fails()) {
+            $data = [
+                'code' => 400,
+                'status' => 'badrequest',
+                'errors' => $validate->errors()
+            ];
+            return response()->json($data, $data['code']);
+        }
+
+        $params = $request->all();
+        unset($params['id']);
+        unset($params['created_at']);
+
+        $category = Category::find($id);
+        $category->update($params);
+
+        $data = [
+            'code' => 200,
+            'status' => 'success',
+            'category' => $category
+        ];
+        return response()->json($data, $data['code']);
+    }
 }
