@@ -7,6 +7,12 @@ use App\Category;
 
 class CategoryController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('api.auth', ['except' => ['index', 'show']]);
+    }
+
     public function index() {
         $categories = Category::all();
 
@@ -35,6 +41,32 @@ class CategoryController extends Controller
             ];
         }
 
+        return response()->json($data, $data['code']);
+    }
+
+    public function store(Request $request) {
+        $validate = \Validator::make($request->all(), [
+            'name' => 'required|string'
+        ]);
+
+
+        if($validate->fails()) {
+            $data = [
+                'code' => 400,
+                'status' => 'badrequest',
+                'errors' => $validate->errors()
+            ];
+            return response()->json($data, $data['code']);
+        }
+
+        $category = Category::make($request->all());
+        $category->save();
+
+        $data = [
+            'code' => 201,
+            'status' => 'success',
+            'category' => $category
+        ];
         return response()->json($data, $data['code']);
     }
 }

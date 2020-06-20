@@ -8,6 +8,9 @@ class Category extends Model
 {
     protected $table = 'categories';
 
+    protected $fillable = [
+        'name'
+    ];
 
     // Relacion de uno a muchos
     public function posts() {
