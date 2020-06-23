@@ -29,3 +29,6 @@ Route::get('users/{id}', 'UserController@detail')->name('users.detail')->middlew
 
 //Rutas de Categorias
 Route::apiResource('/category', 'CategoryController');
+
+// Rutas de Posts
+Route::apiResource('/posts', 'PostController');
