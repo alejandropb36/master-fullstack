@@ -72,7 +72,44 @@ class PostController extends Controller
 
         $data = [
             'code' => 201,
-            'status' => 'Badrequest',
+            'status' => 'success',
+            'post' => $post
+        ];
+
+        return response()->json($data, $data['code']);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $params = $request->all();
+
+        $validate = \Validator::make($params, [
+            'title' => 'required',
+            'content' => 'required',
+            'category_id' => 'required'
+        ]);
+
+        if($validate->fails()) {
+            $data = [
+                'code' => 422,
+                'status' => 'Badrequest',
+                'errors' => $validate->errors()
+            ];
+
+            return response()->json($data, $data['code']);
+        }
+
+        unset($params['id']);
+        unset($params['user_id']);
+        unset($params['created_at']);
+        unset($params['user']);
+
+        $post = Post::find($id);
+        $post->update($params);
+
+        $data = [
+            'code' => 200,
+            'status' => 'success',
             'post' => $post
         ];
 
