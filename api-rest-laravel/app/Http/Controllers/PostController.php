@@ -41,9 +41,7 @@ class PostController extends Controller
 
     public function store(Request $request)
     {
-        $jwtAuth = new JwtAuth();
-        $token = $request->header('Authorization', null);
-        $user = $jwtAuth->checkToken($token, true);
+        $user = $this->getIdentity($request);
 
         $validate = \Validator::make($request->all(), [
             'title' => 'required',
@@ -81,6 +79,7 @@ class PostController extends Controller
 
     public function update(Request $request, $id)
     {
+        $user = $this->getIdentity($request);
         $params = $request->all();
 
         $validate = \Validator::make($params, [
@@ -104,21 +103,36 @@ class PostController extends Controller
         unset($params['created_at']);
         unset($params['user']);
 
-        $post = Post::find($id);
-        $post->update($params);
+        $post = Post::where('id', $id)
+            ->where('user_id', $user->sub)
+            ->first();
 
-        $data = [
-            'code' => 200,
-            'status' => 'success',
-            'post' => $post
-        ];
+        if(!$post) {
+            $data = [
+                'code' => 404,
+                'status' => 'NotFound',
+                'message' => 'El post no existe'
+            ];
+        } else {
+            $post->update($params);
+            $data = [
+                'code' => 200,
+                'status' => 'success',
+                'message' => 'El post se ha actualizado correctamente',
+                'post' => $post
+            ];
+        }
 
         return response()->json($data, $data['code']);
     }
 
     public function destroy($id, Request $request)
     {
-        $post = Post::find($id);
+        $user = $this->getIdentity($request);
+
+        $post = Post::where('id', $id)
+            ->where('user_id', $user->sub)
+            ->first();
 
         if(!$post) {
             $data = [
@@ -131,10 +145,20 @@ class PostController extends Controller
             $data = [
                 'code' => 200,
                 'status' => 'success',
-                'message' => 'El post se ha eliminado correctamente'
+                'message' => 'El post se ha eliminado correctamente',
+                'post' => $post
             ];
         }
 
         return response($data, $data['code']);
+    }
+
+    private function getIdentity($request)
+    {
+        $jwtAuth = new JwtAuth();
+        $token = $request->header('Authorization', null);
+        $user = $jwtAuth->checkToken($token, true);
+
+        return $user;
     }
 }
