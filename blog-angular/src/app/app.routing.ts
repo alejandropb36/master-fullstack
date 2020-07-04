@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 // Importar componentes
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
+import { Route } from '@angular/compiler/src/core';
 
 const routes: Routes = [
     { path: 'login', component: LoginComponent },
@@ -11,4 +12,4 @@ const routes: Routes = [
 ];
 
 export const AppRoutingProviders: any[] = [];
-export const routing: ModuleWithProviders<any> = RouterModule.forRoot(routes);
+export const routing: ModuleWithProviders<Route> = RouterModule.forRoot(routes);
