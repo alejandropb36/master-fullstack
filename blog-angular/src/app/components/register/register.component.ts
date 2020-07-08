@@ -7,7 +7,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RegisterComponent implements OnInit {
 
-  constructor() { }
+  page_title: string;
+  constructor() {
+    this.page_title = 'Registrate';
+  }
 
   ngOnInit(): void {
   }
