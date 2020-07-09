@@ -22,6 +22,7 @@ export class RegisterComponent implements OnInit {
   onSubmit(form: NgForm): void {
     console.log(form);
     console.log(this.user);
+    form.reset();
   }
 
 }
