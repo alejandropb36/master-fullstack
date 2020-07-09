@@ -2,6 +2,14 @@
     <h1>{{ page_title }}</h1>
     <p>Registrate en nuestra plataforma para subir nuevos posts!!!</p>
 
+    <div class="alert alert-success col-md-5" *ngIf="status === 'success'">
+        El usuario se ha registrado correctamente, <a [routerLink]="['/login']"> Inicia sesion aqui</a>
+    </div>
+
+    <div class="alert alert-danger col-md-5" *ngIf="status === 'error'">
+        Ha ocurrido un error al registrar al usuario
+    </div>
+
     <!-- Formulario -->
     <form class="col-md-5 ml-0 pl-0" #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)">
         <div class="form-group">
