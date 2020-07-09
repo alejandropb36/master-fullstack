@@ -3,31 +3,38 @@
     <p>Registrate en nuestra plataforma para subir nuevos posts!!!</p>
 
     <!-- Formulario -->
-    <form class="col-md-5 ml-0 pl-0">
+    <form class="col-md-5 ml-0 pl-0" #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)">
         <div class="form-group">
             <label for="name">Nombre</label>
-            <input type="text" name="name" id="name" class="form-control">
+            <input type="text" name="name" id="name" class="form-control" #name="ngModel" [(ngModel)]="user.name" required pattern="[a-z-A-Z ]+">
+            <small *ngIf="!name.valid && name.touched" class="ivalid-feedback">
+                El nombre no es valido
+            </small>
         </div>
         <div class="form-group">
             <label for="surname">Apellidos</label>
-            <input type="text" name="surname" id="surname" class="form-control">
+            <input type="text" name="surname" id="surname" class="form-control" #surname="ngModel" [(ngModel)]="user.surname" required pattern="[a-z-A-Z ]+">
+            <small *ngIf="!surname.valid && surname.touched" class="ivalid-feedback">
+                El apellido no es valido
+            </small>
         </div>
 
         <div class="form-group">
             <label for="email">Email</label>
-            <input type="email" name="email" id="email" class="form-control">
-        </div>
-
-        <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" name="email" id="email" class="form-control">
+            <input type="email" name="email" id="email" class="form-control" #email="ngModel" [(ngModel)]="user.email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$">
+            <small *ngIf="!email.valid && email.touched" class="ivalid-feedback">
+                El email no es valido
+            </small>
         </div>
 
         <div class="form-group">
             <label for="password">Contrasena</label>
-            <input type="password" name="password" id="password" class="form-control">
+            <input type="password" name="password" id="password" class="form-control" #password="ngModel" [(ngModel)]="user.password" required>
+            <small *ngIf="!password.valid && password.touched" class="ivalid-feedback">
+                La contrasena no es valida
+            </small>
         </div>
 
-        <input type="submit" value="Registame" class="btn btn-success">
+        <input type="submit" value="Registame" class="btn btn-success" [disabled]="!registerForm.valid">
     </form>
 </div>
