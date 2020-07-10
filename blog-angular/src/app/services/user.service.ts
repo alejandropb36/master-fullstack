@@ -21,5 +21,16 @@ export class UserService {
         const headers = new HttpHeaders().set('Content-Type', 'application/json');
         return this.httpClient.post(url, user, {headers});
     }
+
+    singup(user, getToken = null): Observable<any> {
+        const url = `${this.url}login`;
+        const headers = new HttpHeaders().set('Content-Type', 'application/json');
+
+        if (getToken) {
+            user.getToken = true;
+        }
+
+        return this.httpClient.post(url, user, {headers});
+    }
 }
 

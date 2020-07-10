@@ -4,6 +4,14 @@
 
     <p>Identificate en la plataforma</p>
 
+    <div class="alert alert-success col-md-5" *ngIf="status === 'success'">
+        Usuario logeado correctamente
+    </div>
+
+    <div class="alert alert-danger col-md-5" *ngIf="status === 'error'">
+        Las credenciales no son validas
+    </div>
+
     <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)" class="col-md-5 mt-3 pl-0">
         <div class="form-group">
             <label for="email">Email</label>

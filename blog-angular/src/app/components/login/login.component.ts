@@ -11,6 +11,10 @@ import { NgForm } from '@angular/forms';
 export class LoginComponent implements OnInit {
 
   user: User;
+  token: string;
+  identity: any;
+  status: string;
+
   constructor(
     private userService: UserService
   ) { }
@@ -20,7 +24,30 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(form: NgForm): void {
-    console.log(this.user);
+    this.userService.singup(this.user).subscribe(
+      response => {
+        if (response.status !== 'error') {
+          this.status = 'success';
+          this.token = response;
+          this.userService.singup(this.user, true).subscribe(
+            response => {
+              this.identity = response;
+              console.log(this.token);
+              console.log(this.identity);
+            },
+            error => {
+              console.log(error);
+            }
+          );
+        } else {
+          this.status = 'error';
+        }
+      },
+      error => {
+        this.status = 'error';
+        console.log(error);
+      }
+    );
   }
 
 }
