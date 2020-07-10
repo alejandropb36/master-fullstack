@@ -32,6 +32,8 @@ export class LoginComponent implements OnInit {
           this.userService.singup(this.user, true).subscribe(
             response => {
               this.identity = response;
+              localStorage.setItem('token', this.token);
+              localStorage.setItem('identity', JSON.stringify(this.identity));
               console.log(this.token);
               console.log(this.identity);
             },
