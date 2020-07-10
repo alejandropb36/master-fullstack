@@ -1,1 +1,27 @@
-<p>login works!</p>
+
+<div class="col-md-12 mt-3">
+    <h1>Login</h1>
+
+    <p>Identificate en la plataforma</p>
+
+    <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)" class="col-md-5 mt-3 pl-0">
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" name="email" id="email" class="form-control" #email="ngModel" [(ngModel)]="user.email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$">
+            <small *ngIf="!email.valid && email.touched" class="ivalid-feedback">
+                El email no es valido
+            </small>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Contrasena</label>
+            <input type="password" name="password" id="password" class="form-control" #password="ngModel" [(ngModel)]="user.password" required>
+            <small *ngIf="!password.valid && password.touched" class="ivalid-feedback">
+                La contrasena no es valida
+            </small>
+        </div>
+
+        <input type="submit" value="Login" class="btn btn-success" [disabled]="!loginForm.valid">
+    </form>
+
+</div>
