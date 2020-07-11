@@ -10,6 +10,8 @@ import { global } from './global';
 export class UserService {
 
     private url: string;
+    public identity: any;
+    public token: string;
     constructor(
         private httpClient: HttpClient
     ) {
@@ -31,6 +33,28 @@ export class UserService {
         }
 
         return this.httpClient.post(url, user, {headers});
+    }
+
+    gteIdentity(): any {
+        const identity = JSON.parse(localStorage.getItem('identity'));
+        if (identity) {
+            this.identity = identity;
+        } else {
+            this.identity = null;
+        }
+
+        return this.identity;
+    }
+
+    getToken(): string {
+        const token = localStorage.getItem('token');
+        if (token) {
+            this.token = token;
+        } else {
+            this.token = null;
+        }
+
+        return this.token;
     }
 }
 
