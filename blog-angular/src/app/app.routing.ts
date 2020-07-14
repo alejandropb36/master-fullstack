@@ -10,8 +10,10 @@ import { ErrorComponent } from './components/error/error.component';
 
 const routes: Routes = [
     { path: '', component: HomeComponent },
+    { path: 'inicio', component: HomeComponent },
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
+    { path: 'logout/:sure', component: LoginComponent },
     { path: '**', component: ErrorComponent },
 ];
 

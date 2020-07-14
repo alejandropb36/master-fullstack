@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { User } from 'src/app/models/User';
 import { UserService } from 'src/app/services/user.service';
 import { NgForm } from '@angular/forms';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -16,11 +17,14 @@ export class LoginComponent implements OnInit {
   status: string;
 
   constructor(
-    private userService: UserService
+    private userService: UserService,
+    private router: Router,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
     this.user = new User(null, '', '', 'ROLE_USER', '', '', '', '');
+    this.logout();
   }
 
   onSubmit(form: NgForm): void {
@@ -36,6 +40,7 @@ export class LoginComponent implements OnInit {
               localStorage.setItem('identity', JSON.stringify(this.identity));
               console.log(this.token);
               console.log(this.identity);
+              this.router.navigate(['inicio']);
             },
             error => {
               console.log(error);
@@ -52,4 +57,18 @@ export class LoginComponent implements OnInit {
     );
   }
 
+  logout(): void {
+    this.route.params.subscribe(params => {
+      const logout = +params['sure'] as number;
+
+      if (logout === 1) {
+        localStorage.removeItem('identity');
+        localStorage.removeItem('token');
+        this.identity = null;
+        this.token = null;
+
+        this.router.navigate(['inicio']);
+      }
+    });
+  }
 }
