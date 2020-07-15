@@ -1,1 +1,52 @@
-<p>user-edit works!</p>
+<div class="col-m- mt-3">
+    <h1>{{ pageTitle }}</h1>
+    <p>Modifica tus datos de usuario</p>
+
+    <div class="alert alert-success col-md-5" *ngIf="status === 'success'">
+        El usuario se ha registrado correctamente, <a [routerLink]="['/login']"> Inicia sesion aqui</a>
+    </div>
+
+    <div class="alert alert-danger col-md-5" *ngIf="status === 'error'">
+        Ha ocurrido un error al registrar al usuario
+    </div>
+    <hr>
+
+    <!-- Formulario de ajustes -->
+    <form class="col-md-5 ml-0 pl-0" #userEditForm="ngForm" (ngSubmit)="onSubmit(userEditForm)">
+        <div class="form-group">
+            <label for="name">Nombre</label>
+            <input type="text" name="name" id="name" class="form-control" #name="ngModel" [(ngModel)]="user.name" required pattern="[a-z-A-Z ]+">
+            <small *ngIf="!name.valid && name.touched" class="ivalid-feedback">
+                El nombre no es valido
+            </small>
+        </div>
+        <div class="form-group">
+            <label for="surname">Apellidos</label>
+            <input type="text" name="surname" id="surname" class="form-control" #surname="ngModel" [(ngModel)]="user.surname" required pattern="[a-z-A-Z ]+">
+            <small *ngIf="!surname.valid && surname.touched" class="ivalid-feedback">
+                El apellido no es valido
+            </small>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" name="email" id="email" class="form-control" #email="ngModel" [(ngModel)]="user.email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$">
+            <small *ngIf="!email.valid && email.touched" class="ivalid-feedback">
+                El email no es valido
+            </small>
+        </div>
+
+        <div class="form-group">
+            <label for="description">Descripcion</label>
+            <input type="text" name="description" id="description" class="form-control" #description="ngModel" [(ngModel)]="user.description" >
+        </div>
+
+        <div class="form-group">
+            <label for="image">Imagen</label>
+            <input type="file" name="image" id="image" class="form-control">
+        </div>
+
+        <input type="submit" value="Guardar cambios" class="btn btn-success" [disabled]="!userEditForm.valid">
+    </form>
+</div>
+
