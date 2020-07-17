@@ -25,11 +25,35 @@ export class UserEditComponent implements OnInit {
     this.token  = this.userService.getToken();
     this.user = new User(null, '', '', 'ROLE_USER', '', '', '', '');
     this.pageTitle = 'Ajustes de usuario';
-    this.user = this.identity;
+    this.user = new User(
+      this.identity.subl,
+      this.identity.name,
+      this.identity.surname,
+      'ROLE_USER',
+      this.identity.email,
+      '',
+      this.identity.description,
+      this.identity.image
+    );
   }
 
   onSubmit(form: NgForm): void {
     console.log(this.user);
+    this.userService.update(this.token, this.user).subscribe(
+      response => {
+        console.log(response);
+        if (response.status === 'success') {
+          this.identity = response.user;
+          localStorage.setItem('identity', JSON.stringify(this.identity));
+        } else {
+          this.status = 'error';
+        }
+      },
+      error => {
+        this.status = 'error';
+        console.log(error);
+      }
+    );
   }
 
 }

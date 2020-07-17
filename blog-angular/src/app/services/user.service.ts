@@ -35,6 +35,14 @@ export class UserService {
         return this.httpClient.post(url, user, {headers});
     }
 
+    update(token: string, user: User): Observable<any> {
+        const url = `${this.url}users/update`;
+        const headers = new HttpHeaders().set('Content-Type', 'application/json')
+            .set('Authorization', token);
+
+        return this.httpClient.put(url, user, {headers});
+    }
+
     gteIdentity(): any {
         const identity = JSON.parse(localStorage.getItem('identity'));
         if (identity) {
