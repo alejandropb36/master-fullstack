@@ -3,11 +3,11 @@
     <p>Modifica tus datos de usuario</p>
 
     <div class="alert alert-success col-md-5" *ngIf="status === 'success'">
-        El usuario se ha registrado correctamente, <a [routerLink]="['/login']"> Inicia sesion aqui</a>
+        Los datos se han modificado correctamente
     </div>
 
     <div class="alert alert-danger col-md-5" *ngIf="status === 'error'">
-        Ha ocurrido un error al registrar al usuario
+        Error al modificar los datos
     </div>
     <hr>
 
@@ -38,7 +38,8 @@
 
         <div class="form-group">
             <label for="description">Descripcion</label>
-            <input type="text" name="description" id="description" class="form-control" #description="ngModel" [(ngModel)]="user.description" >
+            <textarea [froalaEditor]="froalaOptions" name="description" id="description" class="form-control" [(froalaModel)]="user.description" >
+            </textarea>
         </div>
 
         <div class="form-group">
