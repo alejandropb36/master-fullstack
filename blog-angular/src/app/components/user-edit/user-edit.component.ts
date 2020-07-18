@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { User } from 'src/app/models/User';
 import { NgForm } from '@angular/forms';
 import { UserService } from '../../services/user.service';
+import { global } from 'src/app/services/global';
 
 @Component({
   selector: 'app-user-edit',
@@ -21,6 +22,23 @@ export class UserEditComponent implements OnInit {
     toolbarButtonsXS: ['bold', 'italic', 'underline', 'paragraphFormat','alert'],
     toolbarButtonsSM: ['bold', 'italic', 'underline', 'paragraphFormat','alert'],
     toolbarButtonsMD: ['bold', 'italic', 'underline', 'paragraphFormat','alert'],
+  };
+  afuConfig: object = {
+    multiple: false,
+    formatsAllowed: '.jpg, .png, .jpeg',
+    maxSize: '5',
+    uploadAPI:  {
+      url: `${global.url}users/upload`,
+      method: 'POST',
+      headers: {
+        Authorization : `${this.userService.getToken()}`
+      },
+    },
+    theme: 'attachPin',
+    hideProgressBar: false,
+    hideResetBtn: true,
+    hideSelectBtn: false,
+    attachPinText: 'Sube tu avatar de usuario'
   };
 
   constructor(
@@ -61,6 +79,12 @@ export class UserEditComponent implements OnInit {
         console.log(error);
       }
     );
+  }
+
+  avatarUpload(datos): void {
+    console.log(datos.response);
+    const data = JSON.parse(datos.response);
+    this.user.image = data.image;
   }
 
 }

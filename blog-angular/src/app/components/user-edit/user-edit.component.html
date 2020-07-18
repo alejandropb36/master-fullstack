@@ -15,14 +15,16 @@
     <form class="col-md-5 ml-0 pl-0" #userEditForm="ngForm" (ngSubmit)="onSubmit(userEditForm)">
         <div class="form-group">
             <label for="name">Nombre</label>
-            <input type="text" name="name" id="name" class="form-control" #name="ngModel" [(ngModel)]="user.name" required pattern="[a-z-A-Z ]+">
+            <input type="text" name="name" id="name" class="form-control" #name="ngModel" [(ngModel)]="user.name"
+                required pattern="[a-z-A-Z ]+">
             <small *ngIf="!name.valid && name.touched" class="ivalid-feedback">
                 El nombre no es valido
             </small>
         </div>
         <div class="form-group">
             <label for="surname">Apellidos</label>
-            <input type="text" name="surname" id="surname" class="form-control" #surname="ngModel" [(ngModel)]="user.surname" required pattern="[a-z-A-Z ]+">
+            <input type="text" name="surname" id="surname" class="form-control" #surname="ngModel"
+                [(ngModel)]="user.surname" required pattern="[a-z-A-Z ]+">
             <small *ngIf="!surname.valid && surname.touched" class="ivalid-feedback">
                 El apellido no es valido
             </small>
@@ -30,7 +32,8 @@
 
         <div class="form-group">
             <label for="email">Email</label>
-            <input type="email" name="email" id="email" class="form-control" #email="ngModel" [(ngModel)]="user.email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$">
+            <input type="email" name="email" id="email" class="form-control" #email="ngModel" [(ngModel)]="user.email"
+                required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$">
             <small *ngIf="!email.valid && email.touched" class="ivalid-feedback">
                 El email no es valido
             </small>
@@ -38,16 +41,17 @@
 
         <div class="form-group">
             <label for="description">Descripcion</label>
-            <textarea [froalaEditor]="froalaOptions" name="description" id="description" class="form-control" [(froalaModel)]="user.description" >
+            <textarea [froalaEditor]="froalaOptions" name="description" id="description" class="form-control"
+                [(froalaModel)]="user.description">
             </textarea>
         </div>
 
         <div class="form-group">
             <label for="image">Imagen</label>
-            <input type="file" name="image" id="image" class="form-control">
+            <angular-file-uploader [config]="afuConfig" [resetUpload]=resetVar (ApiResponse)="avatarUpload($event)">
+            </angular-file-uploader>
         </div>
 
         <input type="submit" value="Guardar cambios" class="btn btn-success" [disabled]="!userEditForm.valid">
     </form>
 </div>
-
