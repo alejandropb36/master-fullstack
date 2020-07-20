@@ -31,7 +31,9 @@
 
       <ul class="navbar-nav navbar-right" *ngIf="identity && identity.name">
         <li *ngIf="identity && identity.image" class="nav-item">
-          <img src="{{url + 'users/avatar/' + identity.image}}" alt="Avatar de usuario" class="avatar_edit">
+          <div class="avatar_mask">
+            <img src="{{url + 'users/avatar/' + identity.image}}" alt="Avatar de usuario" class="avatar_nav">
+          </div>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
