@@ -2,13 +2,14 @@
   <br>
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <a class="navbar-brand" href="#">
-      <img src="assets/img/angular.png" alt="Imagen de angular" width="30" height="30"> 
+      <img src="assets/img/angular.png" alt="Imagen de angular" width="30" height="30">
       NG-BLOG
     </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-  
+
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
@@ -29,8 +30,12 @@
       </ul>
 
       <ul class="navbar-nav navbar-right" *ngIf="identity && identity.name">
+        <li *ngIf="identity && identity.image" class="nav-item">
+          <img src="{{url + 'users/avatar/' + identity.image}}" alt="Avatar de usuario" class="avatar_edit">
+        </li>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
             {{ identity.name }} {{ identity.surname }}
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -43,7 +48,7 @@
           </div>
         </li>
       </ul>
-      
+
     </div>
   </nav>
 

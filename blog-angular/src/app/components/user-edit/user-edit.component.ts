@@ -16,6 +16,7 @@ export class UserEditComponent implements OnInit {
   token: string;
   pageTitle: string;
   status: string;
+  url: string;
   froalaOptions: object = {
     charCounterCount: true,
     toolbarButtons: ['bold', 'italic', 'underline', 'paragraphFormat','alert'],
@@ -60,6 +61,7 @@ export class UserEditComponent implements OnInit {
       this.identity.description,
       this.identity.image
     );
+    this.url = global.url;
   }
 
   onSubmit(form: NgForm): void {

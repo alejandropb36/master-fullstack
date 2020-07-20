@@ -1,5 +1,6 @@
 import { Component, DoCheck, OnInit } from '@angular/core';
 import { UserService } from './services/user.service';
+import { global } from './services/global';
 
 @Component({
   selector: 'app-root',
@@ -10,6 +11,7 @@ export class AppComponent implements OnInit, DoCheck {
   title = 'blog-angular';
   identity: any;
   token: string;
+  url: string;
 
   constructor(
     private userService: UserService
@@ -17,6 +19,7 @@ export class AppComponent implements OnInit, DoCheck {
 
   ngOnInit(): void {
     this.loadUser();
+    this.url = global.url;
   }
 
   ngDoCheck(): void {
