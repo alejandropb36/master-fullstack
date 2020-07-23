@@ -3,6 +3,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { Category } from 'src/app/models/Category';
 import { NgForm } from '@angular/forms';
+import { CategoryService } from 'src/app/services/category.service';
 
 @Component({
   selector: 'app-category-new',
@@ -20,7 +21,8 @@ export class CategoryNewComponent implements OnInit {
   constructor(
     private userService: UserService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private categoryService: CategoryService
   ) { }
 
   ngOnInit(): void {
@@ -34,6 +36,23 @@ export class CategoryNewComponent implements OnInit {
   onSubmit(form: NgForm): void {
     console.log(form);
     console.log(this.category);
+    this.categoryService.create(this.token, this.category)
+    .subscribe(
+      response => {
+        if (response.status === 'success') {
+          this.category = response.category;
+          console.log(response);
+          console.log(this.category);
+          this.status = 'success';
+          this.router.navigate(['/inicio']);
+        } else {
+          this.status = 'error';
+        }
+      },
+      error => {
+        this.status = 'error';
+      }
+    );
   }
 
 }
