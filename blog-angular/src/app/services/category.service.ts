@@ -24,4 +24,10 @@ export class CategoryService {
             .set('Authorization', token);
         return this.httpClient.post(url, category, {headers});
     }
+
+    getCategories(): Observable<any> {
+        const url = `${this.url}category`;
+        const headers = new HttpHeaders().set('Content-Type', 'application/json');
+        return this.httpClient.get(url, {headers});
+    }
 }
