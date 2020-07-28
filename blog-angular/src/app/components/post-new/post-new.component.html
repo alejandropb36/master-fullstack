@@ -2,17 +2,23 @@
     <h1>{{ pageTitle }}</h1>
     <p>Crear una nuvea entrada del blog</p>
 
-    <!-- <div class="alert alert-success col-md-5" *ngIf="status === 'success'">
-        Los datos se han modificado correctamente
+    <div class="alert alert-success col-md-5" *ngIf="status === 'success'">
+        La entrada se ha guardado correctamente
     </div>
 
     <div class="alert alert-danger col-md-5" *ngIf="status === 'error'">
-        Error al modificar los datos
+        Error al guartdar la entrada
     </div>
-    <hr> -->
+    <hr>
 
     <!-- Formulario de ajustes -->
     <form class="col-md-5 ml-0 pl-0" #postNewForm="ngForm" (ngSubmit)="onSubmit(postNewForm)">
-        
+        <div class="form-group">
+            <label for="title">Título</label>
+            <input type="text" name="title" #title="ngModel" [(ngModel)]="post.title" class="form-control" required>
+            <small *ngIf="!title.valid && title.touched" class="invalid-feedback d-block">El título no es valido</small>
+        </div>
+
+
     </form>
 </div>

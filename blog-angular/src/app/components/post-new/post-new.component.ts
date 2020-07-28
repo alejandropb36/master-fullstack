@@ -15,6 +15,7 @@ export class PostNewComponent implements OnInit {
   post: Post;
   identity: any;
   token: string;
+  status: string;
 
   constructor(
     private userService: UserService,
