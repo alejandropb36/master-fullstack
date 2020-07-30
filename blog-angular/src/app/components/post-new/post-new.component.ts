@@ -16,6 +16,13 @@ export class PostNewComponent implements OnInit {
   identity: any;
   token: string;
   status: string;
+  froalaOptions: object = {
+    charCounterCount: true,
+    toolbarButtons: ['bold', 'italic', 'underline', 'paragraphFormat','alert'],
+    toolbarButtonsXS: ['bold', 'italic', 'underline', 'paragraphFormat','alert'],
+    toolbarButtonsSM: ['bold', 'italic', 'underline', 'paragraphFormat','alert'],
+    toolbarButtonsMD: ['bold', 'italic', 'underline', 'paragraphFormat','alert'],
+  };
 
   constructor(
     private userService: UserService,
@@ -33,7 +40,7 @@ export class PostNewComponent implements OnInit {
   }
 
   onSubmit(form: NgForm): void {
-    console.log(form);
+    console.log(this.post);
   }
 
 }
