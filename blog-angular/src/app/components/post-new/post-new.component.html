@@ -26,6 +26,14 @@
             </textarea>
             <small *ngIf="!content.valid && content.touched" class="invalid-feedback d-block">El contenido no es valido</small>
         </div>
+
+        <div class="form-group">
+            <label for="category_id">Cattegoria</label>
+            <select name="category_id" id="category_id" class="form-control" [(ngModel)]="post.category_id" #category_id="ngModel" required>
+                <option value="null" disabled>Selecciona una categoria...</option>
+                <option *ngFor="let category of categories" [value]="category.id">{{category.name}}</option>
+            </select>
+        </div>
         
         <input type="submit" value="Guardar" class="btn btn-primary">
 

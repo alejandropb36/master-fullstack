@@ -23,6 +23,7 @@ export class PostNewComponent implements OnInit {
     toolbarButtonsSM: ['bold', 'italic', 'underline', 'paragraphFormat','alert'],
     toolbarButtonsMD: ['bold', 'italic', 'underline', 'paragraphFormat','alert'],
   };
+  categories: any[];
 
   constructor(
     private userService: UserService,
@@ -36,11 +37,25 @@ export class PostNewComponent implements OnInit {
     this.identity = this.userService.gteIdentity();
     this.token = this.userService.getToken();
     this.post = new Post(null, this.identity.sub, null, '', '', null, null);
+    this.getCategories();
     // console.log(this.post);
   }
 
   onSubmit(form: NgForm): void {
     console.log(this.post);
+  }
+
+  getCategories(): void {
+    this.categoryService.getCategories().subscribe(
+      response => {
+        if (response.status === 'success') {
+          this.categories = response.categories;
+        }
+      },
+      error => {
+        console.log(error);
+      }
+    );
   }
 
 }
