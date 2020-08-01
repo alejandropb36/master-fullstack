@@ -4,6 +4,7 @@ import { UserService } from 'src/app/services/user.service';
 import { CategoryService } from 'src/app/services/category.service';
 import { Post } from 'src/app/models/Post';
 import { NgForm } from '@angular/forms';
+import { global } from 'src/app/services/global';
 
 @Component({
   selector: 'app-post-new',
@@ -24,6 +25,23 @@ export class PostNewComponent implements OnInit {
     toolbarButtonsMD: ['bold', 'italic', 'underline', 'paragraphFormat','alert'],
   };
   categories: any[];
+  afuConfig: object = {
+    multiple: false,
+    formatsAllowed: '.jpg, .png, .jpeg',
+    maxSize: '5',
+    uploadAPI:  {
+      url: `${global.url}users/upload`,
+      method: 'POST',
+      headers: {
+        Authorization : `${this.userService.getToken()}`
+      },
+    },
+    theme: 'attachPin',
+    hideProgressBar: false,
+    hideResetBtn: true,
+    hideSelectBtn: false,
+    attachPinText: 'Sube tu avatar de usuario'
+  };
 
   constructor(
     private userService: UserService,
@@ -56,6 +74,12 @@ export class PostNewComponent implements OnInit {
         console.log(error);
       }
     );
+  }
+
+  postUpload(datos): void {
+    console.log(datos.response);
+    const data = JSON.parse(datos.response);
+    this.post.image = data.image;
   }
 
 }
