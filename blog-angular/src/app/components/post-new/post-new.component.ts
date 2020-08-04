@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { CategoryService } from 'src/app/services/category.service';
+import { PostService } from 'src/app/services/post.service';
 import { Post } from 'src/app/models/Post';
 import { NgForm } from '@angular/forms';
 import { global } from 'src/app/services/global';
@@ -40,14 +41,15 @@ export class PostNewComponent implements OnInit {
     hideProgressBar: false,
     hideResetBtn: true,
     hideSelectBtn: false,
-    attachPinText: 'Sube tu avatar de usuario'
+    attachPinText: 'Sube tu avatar de usuario',
   };
 
   constructor(
     private userService: UserService,
     private router: Router,
     private route: ActivatedRoute,
-    private categoryService: CategoryService
+    private categoryService: CategoryService,
+    private postService: PostService
   ) { }
 
   ngOnInit(): void {
@@ -61,6 +63,21 @@ export class PostNewComponent implements OnInit {
 
   onSubmit(form: NgForm): void {
     console.log(this.post);
+    this.postService.create(this.post, this.token).subscribe(
+      response => {
+        if (response.status === 'success') {
+          this.status = 'success';
+          this.post = response.post;
+          this.router.navigate(['/inicio']);
+        } else {
+          this.status = 'error';
+        }
+      },
+      error => {
+        this.status = 'error';
+        console.log(error);
+      }
+    );
   }
 
   getCategories(): void {
