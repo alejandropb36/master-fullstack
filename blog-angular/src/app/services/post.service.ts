@@ -25,4 +25,10 @@ export class PostService {
 
         return this.httpClient.post(url, post, {headers});
     }
+
+    getPosts(): Observable<any> {
+        const url = this.url + 'posts';
+
+        return this.httpClient.get(url);
+    }
 }
