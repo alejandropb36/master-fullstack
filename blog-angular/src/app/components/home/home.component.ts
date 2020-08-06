@@ -12,6 +12,7 @@ export class HomeComponent implements OnInit {
   posts: Post[];
   status: string;
   url: string;
+  pageTitle: string;
 
   constructor(
     private postService: PostService
@@ -20,6 +21,7 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.url = global.url;
     this.getPosts();
+    this.pageTitle = 'Posts';
   }
 
   getPosts(): void {
