@@ -11,6 +11,12 @@
 
             <div class="card-body">
                 <!-- imagen -->
+                <div class="post-image w-100" *ngIf="post.image">
+                    <img [src]="url + 'posts/image/' + post.image" [alt]="post.title" class="w-100">
+                </div>
+                <div class="post-image w-100" *ngIf="!post.image">
+                    <img src="assets/img/default.jpg" [alt]="post.title" class="w-100">
+                </div>
             </div>
         </article>
     </div>

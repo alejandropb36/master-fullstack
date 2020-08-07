@@ -31,7 +31,7 @@ export class PostNewComponent implements OnInit {
     formatsAllowed: '.jpg, .png, .jpeg',
     maxSize: '5',
     uploadAPI:  {
-      url: `${global.url}users/upload`,
+      url: `${global.url}posts/image`,
       method: 'POST',
       headers: {
         Authorization : `${this.userService.getToken()}`
@@ -41,7 +41,7 @@ export class PostNewComponent implements OnInit {
     hideProgressBar: false,
     hideResetBtn: true,
     hideSelectBtn: false,
-    attachPinText: 'Sube tu avatar de usuario',
+    attachPinText: 'Sube la imagen de la entrada',
   };
 
   constructor(
