@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PostService } from 'src/app/services/post.service';
 import { Post } from 'src/app/models/Post';
 import { global } from '../../services/global';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-home',
@@ -13,15 +14,18 @@ export class HomeComponent implements OnInit {
   status: string;
   url: string;
   pageTitle: string;
+  identity: any;
 
   constructor(
-    private postService: PostService
+    private postService: PostService,
+    private userService: UserService
   ) { }
 
   ngOnInit(): void {
     this.url = global.url;
     this.getPosts();
     this.pageTitle = 'Posts';
+    this.identity = this.userService.gteIdentity();
   }
 
   getPosts(): void {
