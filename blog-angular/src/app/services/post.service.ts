@@ -31,4 +31,11 @@ export class PostService {
 
         return this.httpClient.get(url);
     }
+
+    getPost(id: number): Observable<any> {
+        const url = this.url + 'posts/' + id;
+
+        return this.httpClient.get(url);
+    }
+
 }
