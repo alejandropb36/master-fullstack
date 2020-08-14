@@ -38,4 +38,12 @@ export class PostService {
         return this.httpClient.get(url);
     }
 
+    update(token: string, post: Post, id: number): Observable<any> {
+        const url = this.url + 'post/' + id;
+        const headers = new HttpHeaders().set('Content-Type', 'application/json')
+         .set('Authorization', token);
+
+        return this.httpClient.put(url, post, {headers});
+    }
+
 }
