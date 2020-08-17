@@ -64,13 +64,12 @@ export class PostEditComponent implements OnInit {
   }
 
   onSubmit(form: NgForm): void {
-    console.log(this.post);
-    this.postService.create(this.post, this.token).subscribe(
+    this.postService.update(this.token, this.post, this.post.id).subscribe(
       response => {
         if (response.status === 'success') {
           this.status = 'success';
           this.post = response.post;
-          this.router.navigate(['/inicio']);
+          this.router.navigate(['/entrada', this.post.id]);
         } else {
           this.status = 'error';
         }

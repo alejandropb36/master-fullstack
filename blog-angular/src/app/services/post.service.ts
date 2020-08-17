@@ -39,7 +39,7 @@ export class PostService {
     }
 
     update(token: string, post: Post, id: number): Observable<any> {
-        const url = this.url + 'post/' + id;
+        const url = this.url + 'posts/' + id;
         const headers = new HttpHeaders().set('Content-Type', 'application/json')
          .set('Authorization', token);
 

@@ -43,6 +43,7 @@ export class PostNewComponent implements OnInit {
     hideSelectBtn: false,
     attachPinText: 'Sube la imagen de la entrada',
   };
+  isEdit: boolean;
 
   constructor(
     private userService: UserService,
@@ -58,6 +59,7 @@ export class PostNewComponent implements OnInit {
     this.token = this.userService.getToken();
     this.post = new Post(null, this.identity.sub, null, '', '', null, null);
     this.getCategories();
+    this.isEdit = false;
     // console.log(this.post);
   }
 
