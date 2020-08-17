@@ -1,6 +1,7 @@
 <div class="col-m- mt-3">
     <h1>{{ pageTitle }}</h1>
-    <p>Crear una nuvea entrada del blog</p>
+    <p *ngIf="!isEdit">Crear una nuvea entrada del blog</p>
+    <p *ngIf="isEdit">Modificar post {{post.title}}</p>
 
     <div class="alert alert-success col-md-5" *ngIf="status === 'success'">
         La entrada se ha guardado correctamente
