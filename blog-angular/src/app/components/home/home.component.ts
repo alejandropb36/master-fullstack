@@ -15,6 +15,7 @@ export class HomeComponent implements OnInit {
   url: string;
   pageTitle: string;
   identity: any;
+  token: string;
 
   constructor(
     private postService: PostService,
@@ -26,6 +27,7 @@ export class HomeComponent implements OnInit {
     this.getPosts();
     this.pageTitle = 'Posts';
     this.identity = this.userService.gteIdentity();
+    this.token = this.userService.getToken();
   }
 
   getPosts(): void {
@@ -40,6 +42,17 @@ export class HomeComponent implements OnInit {
         console.log(error);
       }
     );
+  }
+
+  deletePost(id: number): void {
+    this.postService.delete(this.token, id). subscribe(
+      response => {
+        this.getPosts();
+      },
+      error => {
+        console.log(error);
+      }
+    )
   }
 
 }

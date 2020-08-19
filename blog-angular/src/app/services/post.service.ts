@@ -46,4 +46,12 @@ export class PostService {
         return this.httpClient.put(url, post, {headers});
     }
 
+    delete(token: string, id: number): Observable<any> {
+        const url = this.url + 'posts/' + id;
+        const headers = new HttpHeaders().set('Content-Type', 'application/json')
+         .set('Authorization', token);
+
+        return this.httpClient.delete(url, {headers});
+    }
+
 }
