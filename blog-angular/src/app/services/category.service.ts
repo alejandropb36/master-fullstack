@@ -30,4 +30,16 @@ export class CategoryService {
         const headers = new HttpHeaders().set('Content-Type', 'application/json');
         return this.httpClient.get(url, {headers});
     }
+
+    getCategory(id: number): Observable<any> {
+        const url = `${this.url}category/${id}`;
+        const headers = new HttpHeaders().set('Content-Type', 'application/json');
+        return this.httpClient.get(url, {headers});
+    }
+
+    getPosts(categopryId: number): Observable<any> {
+        const url = `${this.url}posts/category/${categopryId}`;
+        const headers = new HttpHeaders().set('Content-Type', 'application/json');
+        return this.httpClient.get(url, {headers});
+    }
 }
