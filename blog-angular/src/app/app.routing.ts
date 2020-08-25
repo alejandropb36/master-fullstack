@@ -12,6 +12,7 @@ import { CategoryNewComponent } from './components/category-new/category-new.com
 import { PostNewComponent } from './components/post-new/post-new.component';
 import { PostDetailComponent } from './components/post-detail/post-detail.component';
 import { PostEditComponent } from './components/post-edit/post-edit.component';
+import { CategoryDetailComponent } from './components/category-detail/category-detail.component';
 
 const routes: Routes = [
     { path: '', component: HomeComponent },
@@ -24,6 +25,7 @@ const routes: Routes = [
     { path: 'crear-entrada', component: PostNewComponent },
     { path: 'entrada/:id', component: PostDetailComponent },
     { path: 'editar-entrada/:id', component: PostEditComponent },
+    { path: 'categoria/:id', component: CategoryDetailComponent },
     { path: '**', component: ErrorComponent },
 ];
 
