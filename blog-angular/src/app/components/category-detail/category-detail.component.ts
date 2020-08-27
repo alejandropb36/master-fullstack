@@ -38,20 +38,19 @@ export class CategoryDetailComponent implements OnInit {
           if (response.status === 'success') {
             this.category = response.category;
             this.page_title = this.category.name;
-          } else {
-            this.router.navigate(['inicio']);
-          }
-        },
-        error => {
-          console.log(error);
-        }
-      );
-
-      this.categoryService.getPosts(id).subscribe(
-        response => {
-          if (response.status === 'success') {
-            console.log(response);
-            this.posts = response.posts;
+            this.categoryService.getPosts(this.category.id).subscribe(
+              response => {
+                if (response.status === 'success') {
+                  console.log(response);
+                  this.posts = response.posts;
+                } else {
+                  this.router.navigate(['inicio']);
+                }
+              },
+              error => {
+                console.log(error);
+              }
+            );
           } else {
             this.router.navigate(['inicio']);
           }
