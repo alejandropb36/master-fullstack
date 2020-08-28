@@ -4,6 +4,7 @@ import { Category } from '../../models/Category';
 import { CategoryService } from '../../services/category.service';
 import { global } from '../../services/global';
 import { Post } from 'src/app/models/Post';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-category-detail',
@@ -16,17 +17,23 @@ export class CategoryDetailComponent implements OnInit {
   public category: Category;
   public posts: Post[];
   public url: string;
+  identity: any;
+  token: string;
+
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private categoryService: CategoryService
+    private categoryService: CategoryService,
+    private userService: UserService
   ) { }
 
   ngOnInit(): void {
     this.url = global.url;
     this.page_title = '';
     this.getPostsByCategory();
+    this.identity = this.userService.gteIdentity();
+    this.token = this.userService.getToken();
   }
 
   getPostsByCategory(): void {
