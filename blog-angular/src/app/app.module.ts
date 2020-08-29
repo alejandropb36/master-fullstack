@@ -13,12 +13,14 @@ import { UserEditComponent } from './components/user-edit/user-edit.component';
 
 // Import Angular plugin.
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
-import { AngularFileUploaderModule } from "angular-file-uploader";
+import { AngularFileUploaderModule } from 'angular-file-uploader';
 import { CategoryNewComponent } from './components/category-new/category-new.component';
 import { PostNewComponent } from './components/post-new/post-new.component';
 import { PostDetailComponent } from './components/post-detail/post-detail.component';
 import { PostEditComponent } from './components/post-edit/post-edit.component';
 import { CategoryDetailComponent } from './components/category-detail/category-detail.component';
+import { IdentityGuard } from './services/identity.guard';
+import { UserService } from './services/user.service';
 
 @NgModule({
   declarations: [
@@ -44,7 +46,9 @@ import { CategoryDetailComponent } from './components/category-detail/category-d
     AngularFileUploaderModule,
   ],
   providers: [
-    AppRoutingProviders
+    AppRoutingProviders,
+    UserService,
+    IdentityGuard
   ],
   bootstrap: [AppComponent]
 })
