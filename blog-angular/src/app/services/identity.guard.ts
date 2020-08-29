@@ -20,7 +20,7 @@ export class IdentityGuard implements CanActivate {
             return true;
         } else {
             this.router.navigate(['/inicio']);
-            return false
+            return false;
         }
     }
 }
