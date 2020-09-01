@@ -37,6 +37,9 @@
         </div>
 
         <div class="form-group">
+            <div *ngIf="isEdit && post.image">
+                <img src="{{url + 'posts/image/' + post.image}}" alt="Avatar de usuario" class="avatar_edit">
+            </div>
             <label for="image">Imagen</label>
             <angular-file-uploader [config]="afuConfig" (ApiResponse)="postUpload($event)">
             </angular-file-uploader>

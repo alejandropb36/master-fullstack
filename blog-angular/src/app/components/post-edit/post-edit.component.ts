@@ -44,6 +44,7 @@ export class PostEditComponent implements OnInit {
     attachPinText: 'Sube la imagen de la entrada',
   };
   isEdit: boolean;
+  url: string;
 
   constructor(
     private userService: UserService,
@@ -61,6 +62,7 @@ export class PostEditComponent implements OnInit {
     this.getCategories();
     this.getPost();
     this.isEdit = true;
+    this.url = global.url;
   }
 
   onSubmit(form: NgForm): void {
@@ -108,7 +110,7 @@ export class PostEditComponent implements OnInit {
         response => {
           if (response.status === 'success') {
             this.post = response.post;
-            if (this.post.user_id !== this.identity.id) {
+            if (this.post.user_id !== this.identity.sub) {
               this.router.navigate(['inicio']);
             }
             console.log(this.post);
