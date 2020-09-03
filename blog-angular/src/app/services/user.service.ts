@@ -64,5 +64,16 @@ export class UserService {
 
         return this.token;
     }
+
+    getPosts(id: number): Observable<any> {
+        const url = this.url + 'posts/user/' + id;
+
+        return this.httpClient.get(url);
+    }
+
+    getUser(id: number): Observable<any> {
+        const url = this.url + 'users/' + id;
+        return this.httpClient.get(url);
+    }
 }
 
