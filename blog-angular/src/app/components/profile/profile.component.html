@@ -1,5 +1,15 @@
 <div class="container-fluid mt-3" *ngIf="posts">
-    <h1> Perfil de  {{user.name}} {{user.surname}} </h1>
+    <hr>
+    <div class="user-card">
+        <div class="avatar_mask_profile float-left mr-3" *ngIf="user && user.image">
+            <img src="{{url + 'users/avatar/' + user.image}}" alt="Avatar de usuario" class="avatar_nav">
+        </div>
+        <div class="data-mask float-left">
+            <h1> Perfil de {{user.name}} {{user.surname}} </h1>
+            <p [innerHTML]="user.description"></p>
+        </div>
+        <dic class="clearfix"></dic>
+    </div>
     <hr>
     <div class="card-columns">
         <article class="card w-100" *ngFor="let post of posts">
@@ -22,7 +32,7 @@
                     <a [routerLink]="['/entrada', post.id]" class="btn btn-success mr-2">Leer</a>
                     <span *ngIf="identity && identity.sub === post.user_id">
                         <a [routerLink]="['/editar-entrada', post.id]" class="btn btn-warning mr-2">Editar</a>
-                        
+
                         <!-- Trigger the modal with a button -->
                         <button type="button" class="btn btn-danger" data-toggle="modal"
                             [attr.data-target]="'#myModal'+post.id">Borrar</button>
@@ -41,7 +51,8 @@
                                         <p>Vas a borrar definitivamente {{post.title}}</p>
                                     </div>
                                     <div class="modal-footer">
-                                        <a (click)="deletePost(post.id)" class="btn btn-danger" data-dismiss="modal">Borrar</a>
+                                        <a (click)="deletePost(post.id)" class="btn btn-danger"
+                                            data-dismiss="modal">Borrar</a>
                                         <button type="button" class="btn btn-default"
                                             data-dismiss="modal">Close</button>
                                     </div>
