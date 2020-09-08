@@ -61,7 +61,7 @@ export class ProfileComponent implements OnInit {
       response => {
         console.log(response);
         this.status = 'success';
-        this.posts = response;
+        this.posts = response.posts;
       },
       error => {
         this.status = 'error';

@@ -8,6 +8,8 @@ use App\User;
 
 class UserController extends Controller
 {
+    public function __construct(){}
+
     public function pruebas(Request $request) {
         return "Accion de pruebas user controller";
     }
