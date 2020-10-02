@@ -87,6 +87,28 @@ const controller = {
             });
         }
 
+    },
+
+    login: function(req, res) {
+        // Recoger los parametros de la peticion
+
+        // Validar los datos que llegan 
+
+        // Buscar usuarios que coincidan
+
+        // Si lo encuentra
+
+        // Comprobar contrasena (coincidencia email y password)
+
+        // Si es correcto, 
+
+        // Generar un token jwt y devolver
+
+        // Devolver los datos
+
+        return res.status(200).send({
+            message: 'Metodo de login'
+        });
     }
 };
 
