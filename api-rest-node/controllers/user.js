@@ -55,12 +55,12 @@ const controller = {
                         user.password = hash
                         // guardar usuario
                         user.save((error, userStored) => {
-                            if(error) {
+                            if (error) {
                                 return res.status(500).send({
                                     message: 'Error al guardar el usuario',
-                                }); 
+                                });
                             }
-                            if(!userStored) {
+                            if (!userStored) {
                                 return res.status(400).send({
                                     message: 'El usuario no se ha guardado',
                                 });
@@ -80,7 +80,7 @@ const controller = {
                     });
                 }
             });
-            
+
         } else {
             return res.status(400).send({
                 message: 'Datos no validos',
@@ -89,26 +89,38 @@ const controller = {
 
     },
 
-    login: function(req, res) {
+    login: function (req, res) {
         // Recoger los parametros de la peticion
+        const params = req.body;
 
         // Validar los datos que llegan 
+        const validate_email = !validator.isEmpty(params.email) && validator.isEmail(params.email);
+        const validate_password = !validator.isEmpty(params.password);
+
+        if (!validate_password || !validate_email) {
+            return res.status(400).send({
+                message: 'Los datos son incorrectos, envialos bien!!'
+            });
+        }
 
         // Buscar usuarios que coincidan
+        User.findOne({ email: params.email.toLowerCase() }, (err, user) => {
+            // Si lo encuentra
+    
+            // Comprobar contrasena (coincidencia email y password)
+    
+            // Si es correcto, 
+    
+            // Generar un token jwt y devolver
+    
+            // Devolver los datos
+    
+            return res.status(200).send({
+                user: user
+            });
 
-        // Si lo encuentra
-
-        // Comprobar contrasena (coincidencia email y password)
-
-        // Si es correcto, 
-
-        // Generar un token jwt y devolver
-
-        // Devolver los datos
-
-        return res.status(200).send({
-            message: 'Metodo de login'
         });
+
     }
 };
 
