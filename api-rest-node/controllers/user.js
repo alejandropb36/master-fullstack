@@ -127,6 +127,9 @@ const controller = {
                 // Si es correcto, 
                 if (check) {
                     // Generar un token jwt y devolver
+                    
+                    // Limpiar el objeto
+                    user.password = undefined;
             
                     // Devolver los datos
                     return res.status(200).send({
