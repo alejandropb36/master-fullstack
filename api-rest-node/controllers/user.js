@@ -3,6 +3,7 @@
 const validator = require('validator');
 const bcrypt = require('bcrypt-nodejs');
 const User = require('../models/user');
+const jswt = require('../services/jwt');
 
 const controller = {
     probando: function (request, response) {
@@ -127,6 +128,11 @@ const controller = {
                 // Si es correcto, 
                 if (check) {
                     // Generar un token jwt y devolver
+                    if (params.getToken) {
+                        return res.status(200).send({
+                            token: jswt.createToken(user)
+                        });
+                    }
                     
                     // Limpiar el objeto
                     user.password = undefined;
