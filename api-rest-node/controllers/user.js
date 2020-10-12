@@ -151,6 +151,13 @@ const controller = {
 
         });
 
+    },
+
+    update: function(req, res) {
+        // Crear middleware para el token jwt
+        return res.status(400).send({
+            message: 'Metodo de update'
+        });
     }
 };
 
