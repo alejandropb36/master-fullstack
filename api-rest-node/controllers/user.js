@@ -24,10 +24,17 @@ const controller = {
         const params = req.body;
 
         // Validar los datos
-        var validate_name = !validator.isEmpty(params.name);
-        var validate_surname = !validator.isEmpty(params.surname);
-        var validate_email = !validator.isEmpty(params.email) && validator.isEmail(params.email);
-        var validate_passwrod = !validator.isEmpty(params.password);
+        try {
+            var validate_name = !validator.isEmpty(params.name);
+            var validate_surname = !validator.isEmpty(params.surname);
+            var validate_email = !validator.isEmpty(params.email) && validator.isEmail(params.email);
+            var validate_passwrod = !validator.isEmpty(params.password);
+        }
+        catch (error) {
+            return res.status(400).send({
+                message: 'Error al validar los datos'
+            });
+        }
 
         if (validate_name && validate_surname && validate_email && validate_passwrod) {
             // Crear el objeto del usuario
@@ -97,6 +104,13 @@ const controller = {
         // Validar los datos que llegan 
         const validate_email = !validator.isEmpty(params.email) && validator.isEmail(params.email);
         const validate_password = !validator.isEmpty(params.password);
+        try {
+        }
+        catch (error) {
+            return res.status(400).send({
+                message: 'Error al validar los datos'
+            });
+        }
 
         if (!validate_password || !validate_email) {
             return res.status(400).send({
@@ -119,12 +133,12 @@ const controller = {
                 });
             }
             // Si lo encuentra
-    
+
             // Comprobar contrasena (coincidencia email y password)
             bcrypt.compare(params.password, user.password, (err, check) => {
                 if (err) {
                 }
-                
+
                 // Si es correcto, 
                 if (check) {
                     // Generar un token jwt y devolver
@@ -133,10 +147,10 @@ const controller = {
                             token: jswt.createToken(user)
                         });
                     }
-                    
+
                     // Limpiar el objeto
                     user.password = undefined;
-            
+
                     // Devolver los datos
                     return res.status(200).send({
                         user: user
@@ -147,18 +161,59 @@ const controller = {
                     });
                 }
             });
-    
+
 
         });
 
     },
 
-    update: function(req, res) {
-        // Crear middleware para el token jwt
-        return res.status(200).send({
-            message: 'Metodo de update',
-            user: req.user
+    update: function (req, res) {
+        // Recoger el body
+        const params = req.body;
+
+        // Validar los datos
+        try {
+            var validate_name = !validator.isEmpty(params.name);
+            var validate_surname = !validator.isEmpty(params.surname);
+            var validate_email = !validator.isEmpty(params.email) && validator.isEmail(params.email);
+        }
+        catch (error) {
+            return res.status(400).send({
+                message: 'Error al validar los datos'
+            });
+        }
+
+        // Eliminar propiedades innecesarias
+        delete params.password;
+
+        const userId = req.user.sub;
+
+        // Busacr y actualizar
+        User.findOneAndUpdate({ _id: userId }, params, {new: true}, (err, userUpdated) => {
+
+            if (err) {
+                return res.status(500).send({
+                    status: 'error',
+                    message: 'Error al actualizar el usuario',
+                    err
+                }); 
+            }
+
+            if (!userUpdated) {
+                return res.status(400).send({
+                    status: 'error',
+                    message: 'No se ha actualizado el usuario'
+                });
+            }
+
+            return res.status(200).send({
+                status: 'success',
+                user: userUpdated
+            });
         });
+
+
+        
     }
 };
 
