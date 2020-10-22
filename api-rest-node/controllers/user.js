@@ -188,29 +188,48 @@ const controller = {
 
         const userId = req.user.sub;
 
-        // Busacr y actualizar
-        User.findOneAndUpdate({ _id: userId }, params, {new: true}, (err, userUpdated) => {
+        // Comprobar si el email es unico
+        if (req.user.email != params.email) {
+            User.findOne({ email: params.email.toLowerCase() }, (err, user) => {
 
-            if (err) {
-                return res.status(500).send({
-                    status: 'error',
-                    message: 'Error al actualizar el usuario',
-                    err
-                }); 
-            }
-
-            if (!userUpdated) {
-                return res.status(400).send({
-                    status: 'error',
-                    message: 'No se ha actualizado el usuario'
-                });
-            }
-
-            return res.status(200).send({
-                status: 'success',
-                user: userUpdated
+                if (err) {
+                    return res.status(500).send({
+                        message: 'Error al intentar identificarse'
+                    });
+                }
+    
+                if (user) {
+                    return res.status(400).send({
+                        message: 'El email no puede ser modoficado'
+                    });
+                }
             });
-        });
+        } else {
+            // Busacr y actualizar
+            User.findOneAndUpdate({ _id: userId }, params, {new: true}, (err, userUpdated) => {
+    
+                if (err) {
+                    return res.status(500).send({
+                        status: 'error',
+                        message: 'Error al actualizar el usuario',
+                        err
+                    }); 
+                }
+    
+                if (!userUpdated) {
+                    return res.status(400).send({
+                        status: 'error',
+                        message: 'No se ha actualizado el usuario'
+                    });
+                }
+    
+                return res.status(200).send({
+                    status: 'success',
+                    user: userUpdated
+                });
+            });
+        }
+
 
 
         
