@@ -229,11 +229,24 @@ const controller = {
                 });
             });
         }
+    },
 
+    uploadAvatar: function(req, res) {
+        // Configurar el modulo multipartin
 
+        // Recoger el fichero de la peticion
 
-        
-    }
+        // Conseguir el nombre y la extension del archivo
+
+        // Comprobar extension solo imagenes, si no es valida borrar fichero subido
+
+        // Sacar el id del usuario autentificado
+
+        // Buscar y actualizar el usuario
+        return res.status(200).send({
+            status: 'Metodo de upload Avatar de usuarios'
+        });
+    },
 };
 
 module.exports = controller;
