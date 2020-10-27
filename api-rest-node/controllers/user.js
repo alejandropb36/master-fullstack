@@ -232,11 +232,27 @@ const controller = {
     },
 
     uploadAvatar: function(req, res) {
-        // Configurar el modulo multipartin
+        // Configurar el modulo multipartin routes-user.js
 
         // Recoger el fichero de la peticion
+        let file_name = 'Avatar no subido...';
 
+        if (!req.files) {
+            return res.status(400).send({
+                status: 'error',
+                message: file_name
+            });
+        }
         // Conseguir el nombre y la extension del archivo
+        const file_path = req.files.file0.path;
+        const file_split = file_path.split('\\');
+        file_name = file_split[file_split.length - 1];
+        const ext_split = file_name.split('\.');
+        const ext_name = ext_split[ext_split.length - 1];
+
+
+        // Advertencia para linux o mac **
+        // const file_split = file_path.split('/');
 
         // Comprobar extension solo imagenes, si no es valida borrar fichero subido
 
@@ -244,8 +260,11 @@ const controller = {
 
         // Buscar y actualizar el usuario
         return res.status(200).send({
-            status: 'Metodo de upload Avatar de usuarios'
+            status: 'success',
+            message: 'Metodo para subir avatar de usuario',
+            nombre: ext_name
         });
+
     },
 };
 
