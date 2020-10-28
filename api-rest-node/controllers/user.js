@@ -4,6 +4,9 @@ const validator = require('validator');
 const bcrypt = require('bcrypt-nodejs');
 const User = require('../models/user');
 const jswt = require('../services/jwt');
+const fs = require('fs');
+const path = require('path');
+const user = require('../models/user');
 
 const controller = {
     probando: function (request, response) {
@@ -249,21 +252,40 @@ const controller = {
         file_name = file_split[file_split.length - 1];
         const ext_split = file_name.split('\.');
         const ext_name = ext_split[ext_split.length - 1];
-
-
         // Advertencia para linux o mac **
         // const file_split = file_path.split('/');
 
         // Comprobar extension solo imagenes, si no es valida borrar fichero subido
+        if (!['png', 'jpeg', 'jpg', 'gif'].includes(ext_name)) {
+            fs.unlink(file_path, (error) => {
+                return res.status(400).send({
+                    status: 'error',
+                    message: 'La extension del archivo no es valida',
+                    extension: ext_name
+                });        
+            });
+        } else {
+            // Sacar el id del usuario autentificado
+            const userId = req.user.sub;
 
-        // Sacar el id del usuario autentificado
+    
+            // Buscar y actualizar el usuario
+            User.findOneAndUpdate({_id: userId}, {image: file_name}, {new: true}, (err, userUpdated) => {
+                if (err || !userUpdated) {
+                    return res.status(500).send({
+                        status: 'error',
+                        message: 'Error al actualizar el usuario'
+                    });
+                }
+                return res.status(200).send({
+                    status: 'success',
+                    user: userUpdated
+                });
+            });
 
-        // Buscar y actualizar el usuario
-        return res.status(200).send({
-            status: 'success',
-            message: 'Metodo para subir avatar de usuario',
-            nombre: ext_name
-        });
+        }
+
+
 
     },
 };
