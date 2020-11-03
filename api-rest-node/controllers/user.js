@@ -282,12 +282,23 @@ const controller = {
                     user: userUpdated
                 });
             });
-
         }
-
-
-
     },
+
+    avatar: function(req, res) {
+        const fileName = req.params.fileName;
+        const pathFile = './uploads/users/' + fileName; 
+
+        fs.exists(pathFile, (exists) => {
+            if(exists) {
+                return res.sendFile(path.resolve(pathFile));
+            } else {
+                return res.status(404).send({
+                    message: "La imagen no existe"
+                });
+            }
+        });
+    }
 };
 
 module.exports = controller;
