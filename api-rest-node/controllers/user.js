@@ -298,6 +298,38 @@ const controller = {
                 });
             }
         });
+    },
+
+    getUsers: function(req, res) {
+        User.find().exec((err, users) => {
+            if(err || !users) {
+                return res.status(500).send({
+                    message: "Ha ocurrido un error al buscar usuarios"
+                });
+            } else {
+                return res.status(200).send({
+                    status: "success",
+                    users: users 
+                });
+            }
+        });
+    },
+
+    getUser: function(req, res) {
+        var userId = req.params.userId;
+
+        User.findById(userId, (err, user) => {
+            if(err || !user) {
+                return res.status(404).send({
+                   message: "el usuario no existe" 
+                });
+            } else {
+                return res.status(200).send({
+                    status: "success",
+                    user: user
+                });
+            }
+        });
     }
 };
 
