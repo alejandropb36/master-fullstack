@@ -9,6 +9,7 @@ const app = express();
 
 // Cargar archivos de rutas
 const user_routes = require('./routes/user');
+const topic_routes = require('./routes/topic');
 
 
 // Middlewares
@@ -19,6 +20,7 @@ app.use(bodyParser.json());
 
 // Reescribir rutas
 app.use('/api', user_routes);
+app.use('/api', topic_routes);
 
 // Exportar modulo
 module.exports = app;
