@@ -1,5 +1,9 @@
 'use strict'
 
+const validator = require('validator');
+const topic = require('../models/topic');
+const Topic = require('../models/topic');
+
 const controller = {
     test: function(req, res) {
         return res.status(200).send({
@@ -10,20 +14,50 @@ const controller = {
     save: function(req, res) {
 
         // Recoger los datos
+        var params = req.body;
 
         // Validar los datos
+        try {
+            var validate_title = !validator.isEmpty(params.title);
+            var validate_content = !validator.isEmpty(params.content);
+            var validate_lang = !validator.isEmpty(params.lang);
 
-        // Crear el objeto a guardar
+        } catch (error) {
+            return res.status(400).send({
+                message: "Error al validar los datos"
+            });
+        }
 
-        // Asignar valores
-        
-        // Guardar el topic
+        if(validate_title && validate_lang && validate_content) {
+            // Crear el objeto a guardar
+            var topic = new Topic(); 
+    
+            // Asignar valores
+            topic.title = params.title;
+            topic.content = params.content;
+            topic.lang = params.lang;
+            topic.code = params.code;
 
-        // Devolver una respuesta
+            // Guardar el topic
+            topic.save((error, topicStore) => {
+                if(error || !topicStore) {
+                    return res.status(500).send({
+                        message: "Error al guardar el topic"
+                    });
+                }
+                // Devolver una respuesta
+                return res.status(200).send({
+                    status: "success",
+                    topic: topicStore
+                });
+            });
+    
+        } else {
+            return res.status(400).send({
+                message: "datos no validos"
+            });
+        }
 
-        return res.status(200).send({
-            message: "Soy el metodo para guardar el topic"
-        });
     }
 };
 
