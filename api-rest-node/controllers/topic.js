@@ -58,6 +58,24 @@ const controller = {
             });
         }
 
+    },
+
+    getTopics: function(req, res) {
+        // Cargar la libreria de paginacion
+
+        // Recoger la pagina actual
+
+        // Indicar las opciones de paginacion
+
+        // Find paginado
+
+        // Devolver topic(topics, total del topics, total de paginas)
+
+
+        return res.status(200).send({
+            status: "success",
+            topics: []
+        });
     }
 };
 
