@@ -81,14 +81,28 @@ const controller = {
         };
 
         // Find paginado
+        Topic.paginate({}, options, (err, topics) => {
 
-        // Devolver topic(topics, total del topics, total de paginas)
+            if (err) {
+                return res.status(500),send({
+                    status: "error",
+                    message: "Error al buscar los topics"
+                });
+            }
 
+            if (!topics) {
+                return res.status(404).send({
+                    status: "error",
+                    message: "No hay topics"
+                });
+            }
 
-        return res.status(200).send({
-            page: page,
-            status: "success",
-            topics: []
+            // Devolver topic(topics, total del topics, total de paginas)
+    
+            return res.status(200).send({
+                status: "success",
+                topics: topics
+            });
         });
     }
 };
