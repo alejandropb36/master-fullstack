@@ -37,6 +37,7 @@ const controller = {
             topic.content = params.content;
             topic.lang = params.lang;
             topic.code = params.code;
+            topic.user = req.user.sub;
 
             // Guardar el topic
             topic.save((error, topicStore) => {
@@ -61,11 +62,23 @@ const controller = {
     },
 
     getTopics: function(req, res) {
-        // Cargar la libreria de paginacion
+        // Cargar la libreria de paginacion (En el modelo)
 
         // Recoger la pagina actual
+        var page = req.params.page;
+        if (!page) {
+            page = 1;
+        } else {
+            page = parseInt(page);
+        }
 
         // Indicar las opciones de paginacion
+        var options = {
+            sort: { date: -1 },
+            populate: 'user',
+            limit: 5,
+            page: page
+        };
 
         // Find paginado
 
@@ -73,6 +86,7 @@ const controller = {
 
 
         return res.status(200).send({
+            page: page,
             status: "success",
             topics: []
         });
