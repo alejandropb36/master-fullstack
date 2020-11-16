@@ -104,6 +104,40 @@ const controller = {
                 topics: topics
             });
         });
+    },
+
+    getTopicsByUser: function(req, res) {
+        // Conseguir el id del usuario
+        const userId = req.params.user;
+
+        // Buscar con la condicion de usuario
+        Topic.find({
+            user: userId
+        })
+        .sort([['date', 'descending']])
+        .exec((err, topics) => {
+            if (err) {
+                return res.status(500).send({
+                    status: "error",
+                    message: "Error al buscar topics"
+                });
+            }
+
+            if (!topics) {
+                return res.status(404).send({
+                    status: "error",
+                    message: "No existen topics de ese usuario"
+                });
+            }
+
+            // Devolver el resultado
+            
+            return res.status(200).send({
+                status: "success",
+                topics: topics
+            });
+        });
+
     }
 };
 
