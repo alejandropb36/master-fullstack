@@ -138,6 +138,33 @@ const controller = {
             });
         });
 
+    },
+
+    getTopic: function(req, res) {
+        const topicId = req.params.topic;
+
+        Topic.findById(topicId)
+            .populate('user')
+            .exec((err, topic) => {
+            if(err) {
+                return res.status(500).send({
+                    status: "error",
+                    message: "Error al buscar el topic"
+                });
+            }
+
+            if(!topic) {
+                return res.status(404).send({
+                    status: "error",
+                    message: "No se encontro el topic que esta buscando"
+                });
+            }
+
+            return res.status(200).send({
+                status: "success",
+                topic: topic
+            });
+        });
     }
 };
 
