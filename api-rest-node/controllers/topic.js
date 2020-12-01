@@ -224,6 +224,37 @@ const controller = {
                 message: "Error al validar los datos"
             });
         }
+    },
+
+    delete: function(req, res) {
+        // sacar el id del topic
+        var topicId = req.params.id;
+
+
+        // Find and delete por topicId y por userId
+        Topic.findOneAndDelete({_id: topicId, user: req.user.sub}, (err, topicRemoved) => {
+            
+            if (err) {
+                return res.status(500).send({
+                    status: "error",
+                    message: "Error al borra el topic"
+                });
+            }
+
+            if (!topicRemoved) {
+                return res.status(404).send({
+                    status: "error",
+                    message: "El topic que trata de borrar no fue encontrado"
+                });
+            }
+
+            // Devolver la respuesta
+            return res.status(200).send({
+                status: "success",
+                topic: topicRemoved
+            });
+        })
+
     }
 };
 
