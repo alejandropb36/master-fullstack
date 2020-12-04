@@ -1,10 +1,72 @@
 'use strict'
 
+const validator = require('validator');
+const Topic = require('../models/topic');
+
 const controller = {
     add: function(req, res) {
-        return res.status(200).send({
-            message: "Metodo de agregar comentarios"
+        // Recoger el Id del topic de la url
+        var topicId = req.params.topicId;
+
+        // Buscar por id del topic
+        Topic.findById(topicId, (err, topic) => {
+            if(err) {
+                return res.status(500).send({
+                    status: "error",
+                    message: "Ha ocurrido un error al agregar el comentario"
+                });
+            }
+
+            if(!topic) {
+                return res.status(404).send({
+                    status: "error",
+                    message: "No se ha encontrado el topic"
+                });
+            }
+
+            // Comprobar si el usuario esta idfentificado y validar datos
+            if (req.body.content) {
+                try {
+                    var validate_content = !validator.isEmpty(req.body.content);
+        
+                } catch (error) {
+                    return res.status(400).send({
+                        message: "Error al validar los datos"
+                    });
+                }
+
+                if (validate_content) {
+                    // En la propiedad comments del objeto resultante hacer un push
+                    var comment = {
+                        user: req.user.sub,
+                        content: req.body.content
+                    }
+                    
+                    topic.comments.push(comment);
+                    // Guardar el topic completo
+                    topic.save((err) => {
+                        if(err) {
+                            return res.status(500).send({
+                                status: "error",
+                                message: "Ha ocurrido un error al guardar el comentario"
+                            });
+                        }
+                        // Devolver respuesta
+                        return res.status(200).send({
+                            status: "success",
+                            topic: topic
+                        });
+                    });
+            
+                } else {
+                    return res.status(400).send({
+                        status: "error",
+                        message: "Error al validar el content"
+                    });
+                }
+            }
         });
+
     },
 
     update: function(req, res) {
