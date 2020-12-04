@@ -70,9 +70,57 @@ const controller = {
     },
 
     update: function(req, res) {
-        return res.status(200).send({
-            message: "Metodo de edicion comentarios"
-        });
+        // Conseguir el id del comentario
+        var commentId = req.params.commentId;
+
+        // Recoger datos y validar
+        var body = req.body;
+
+        try {
+            var validate_content = !validator.isEmpty(body.content);
+
+        } catch (error) {
+            return res.status(400).send({
+                message: "Error al validar los datos"
+            });
+        }
+
+        if (validate_content) {
+            // Find an update de un sub documento
+            Topic.findOneAndUpdate(
+                {"comments._id": commentId},
+                {
+                    "$set": {
+                        "comments.$.content": body.content
+                    }
+                },
+                {new: true},
+                (err, topicUpdated) => {
+                    if(err) {
+                        return res.status(500).send({
+                            status: "error",
+                            message: "Ha ocurrido un error al actualizar el comentario"
+                        });
+                    }
+
+                    if(!topicUpdated) {
+                        return res.status(404).send({
+                            status: "error",
+                            message: "No se ha encontrado el topic"
+                        });
+                    }
+                    // Devolver los datos
+                    return res.status(200).send({
+                        status: "success",
+                        topic: topicUpdated
+                    });
+                }
+            );
+        } else {
+            return res.status(400).send({
+                message: "Error al validar los datos"
+            });
+        }
     },
 
     delete: function(req, res) {
