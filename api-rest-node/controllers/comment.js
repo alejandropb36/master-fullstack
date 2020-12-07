@@ -124,9 +124,58 @@ const controller = {
     },
 
     delete: function(req, res) {
-        return res.status(200).send({
-            message: "Metodo de borrar comentarios"
+        // Sacar el id del topic y del comentario a borrar
+        const topicId = req.params.topicId;
+        const commentId = req.params.commentId;
+        // Buscar el topic
+
+        Topic.findById(topicId, (err, topic) => {
+            
+            if(err) {
+                return res.status(500).send({
+                    status: "error",
+                    message: "Ha ocurrido un error al buscar el topic"
+                });
+            }
+
+            if(!topic) {
+                return res.status(404).send({
+                    status: "error",
+                    message: "No se ha encontrado el topic"
+                });
+            }
+            
+            // Seleccionar el subdocumento
+            var comment = topic.comments.id(commentId);
+    
+            // Borrar el comentario
+            if(comment) {
+                comment.remove();
+                // Guardar el topic
+                topic.save((err) => {
+                    if(err) {
+                        return res.status(500).send({
+                            status: "error",
+                            message: "Ha ocurrido un error al guardar el topic"
+                        });
+                    }
+
+                    // Devolver un resultado
+                    return res.status(200).send({
+                        status: "success",
+                        message: "Metodo de borrar comentarios",
+                        topic: topic
+                    });
+                });
+    
+            } else {
+                return res.status(404).send({
+                    status: "error",
+                    message: "No se ha encontrado el comentario"
+                });
+            }
         });
+
     },
 
 };
