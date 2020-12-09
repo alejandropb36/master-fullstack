@@ -255,6 +255,42 @@ const controller = {
             });
         })
 
+    },
+
+    search: function(req, res) {
+        // Sacar el string a buscar
+        var searchString = req.params.search;
+
+        // Find or
+        Topic.find({ "$or": [
+            {"title": {"$regex": searchString, "$options": "i"}},
+            {"content": {"$regex": searchString, "$options": "i"}},
+            {"code": {"$regex": searchString, "$options": "i"}},
+            {"lang": {"$regex": searchString, "$options": "i"}}
+        ]})
+        .sort([['date', 'descending']])
+        .exec((err, topics) => {
+            if (err) {
+                return res.status(500).send({
+                    status: "error",
+                    message: "Error al buscar el topic"
+                });
+            }
+
+            if (!topics) {
+                return res.status(404).send({
+                    status: "error",
+                    message: "El topic que trata de buscar no fue encontrado"
+                });
+            }
+
+            // Devolver el resultado
+            return res.status(200).send({
+                status: "success",
+                topics: topics
+            });
+        });
+
     }
 };
 
