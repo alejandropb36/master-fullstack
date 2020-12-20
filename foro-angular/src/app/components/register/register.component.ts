@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { User } from '../../models/user';
 
 @Component({
@@ -17,7 +18,10 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    
+  }
+
+  onSubmit(registerForm: NgForm): void {
+    console.log(this.user);
   }
 
 }
