@@ -14,12 +14,14 @@ export class RegisterComponent implements OnInit {
 
   public page_title: string;
   public user: User;
+  public status: string;
 
   constructor(
     private _userService: UserService
   ) {
     this.page_title = 'Registrate';
     this.user = new User('', '', '', '', '', '', 'ROLE_USER');
+    this.status = '';
   }
 
   ngOnInit(): void {
@@ -29,6 +31,20 @@ export class RegisterComponent implements OnInit {
   onSubmit(registerForm: NgForm): void {
     console.log(this.user);
     console.log(registerForm);
+    this._userService.register(this.user).subscribe(
+      response => {
+        if (response.user && response.user._id) {
+          registerForm.reset();
+          this.status = 'success';
+        } else {
+          this.status = 'error';
+        }
+      },
+      error => {
+        this.status = 'error';
+        console.log(error);
+      }
+    )
   }
 
 }
