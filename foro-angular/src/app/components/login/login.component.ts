@@ -13,12 +13,18 @@ export class LoginComponent implements OnInit {
 
   public page_title: string;
   public user: User;
+  public status: string;
+  public identity: User;
+  public token: string;
 
   constructor(
     private _userService: UserService
   ) {
     this.page_title = 'Identificate';
-    this.user = new User('', '', '', '', '', '', 'ROLE_USER');
+    this.user = new User('', '', '', '', '', '', 'ROLE_USER', false);
+    this.identity = new User('', '', '', '', '', '', 'ROLE_USER', false);
+    this.status = '';
+    this.token = '';
   }
 
   ngOnInit(): void {
@@ -27,6 +33,35 @@ export class LoginComponent implements OnInit {
   onSubmit(form: NgForm): void {
     console.log(form);
     console.log(this.user);
+    this._userService.login(this.user).subscribe(
+      response => {
+        if (response.user && response.user._id) {
+          this.identity = response.user;
+
+          // Conseguir token
+          this._userService.login(this.user, true).subscribe(
+            response => {
+              if (response.token) {
+                this.token = response.token;
+              } else {
+                this.status = 'error';
+              }
+            },
+            error => {
+              this.status = 'error';
+              console.log(error);
+            }
+          );
+
+        } else {
+          this.status = 'error';
+        }
+      },
+      error => {
+        this.status = 'error';
+        console.log(error);
+      }
+    );
   }
 
 }

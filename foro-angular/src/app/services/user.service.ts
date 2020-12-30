@@ -29,4 +29,19 @@ export class UserService {
 
         return this._httpClient.post(url, user, { headers: headres });
     }
+
+    login(user: User, getToken: boolean = false): Observable<any>  {
+        // Comprobar si llega el getToken
+        if (getToken) {
+            user.getToken = getToken;
+        }
+
+        const url = this.url + 'login'
+
+        const headres = new HttpHeaders().set(
+            'Content-Type', 'application/json'
+        );
+        
+        return this._httpClient.post(url, user, { headers: headres });
+    }
 }
