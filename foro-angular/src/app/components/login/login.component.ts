@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import { User } from '../../models/user';
 import { UserService } from '../../services/user.service';
 
@@ -18,7 +19,9 @@ export class LoginComponent implements OnInit {
   public token: string;
 
   constructor(
-    private _userService: UserService
+    private _userService: UserService,
+    private _router: Router,
+    private _route: ActivatedRoute
   ) {
     this.page_title = 'Identificate';
     this.user = new User('', '', '', '', '', '', 'ROLE_USER', false);
@@ -37,12 +40,16 @@ export class LoginComponent implements OnInit {
       response => {
         if (response.user && response.user._id) {
           this.identity = response.user;
+          localStorage.setItem('identity', JSON.stringify(this.identity));
 
           // Conseguir token
           this._userService.login(this.user, true).subscribe(
             response => {
               if (response.token) {
                 this.token = response.token;
+                localStorage.setItem('token', this.token);
+                this.status = 'success';
+                this._router.navigate(['/inicio']);
               } else {
                 this.status = 'error';
               }
