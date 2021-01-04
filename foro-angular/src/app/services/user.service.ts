@@ -9,11 +9,14 @@ import { global } from './global';
 export class UserService {
 
     private url: string;
+    public identity: any;
+    public token: string;
 
     constructor(
         private _httpClient: HttpClient
     ) {
         this.url = global.url;
+        this.token = '';
     }
 
     prueba(): void {
@@ -41,7 +44,32 @@ export class UserService {
         const headres = new HttpHeaders().set(
             'Content-Type', 'application/json'
         );
-        
+
         return this._httpClient.post(url, user, { headers: headres });
+    }
+
+    getIdentity(): any {
+        const identityString = localStorage.getItem('identity');
+
+        if (identityString) {
+            const identity = JSON.parse(identityString);
+            this.identity = identity;
+        } else {
+            this.identity = null;
+        }
+
+        return this.identity;
+    }
+
+    getToken(): string {
+        const token = localStorage.getItem('token');
+
+        if (token) {
+            this.token = token;
+        } else {
+            this.token = '';
+        }
+
+        return this.token;
     }
 }
