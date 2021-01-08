@@ -16,8 +16,12 @@
           <a class="nav-link" href="#">Ver temas</a>
         </li>
         
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="identity && identity.name">
           <a class="nav-link" href="#">Crear temas</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="#">Compañeros</a>
         </li>
 
         <li class="nav-item">
@@ -29,14 +33,14 @@
         
       </ul>
       <ul class="navbar-nav navbar-right">
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="!identity">
           <a class="nav-link" [routerLink]="['/registro']">Registro</a>
         </li>
         
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="!identity">
           <a class="nav-link" [routerLink]="['/login']">Login</a>
         </li>
-        <li class="nav-item dropdown">
+        <li class="nav-item dropdown" *ngIf="identity && identity.name">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             {{ identity.name }} {{ identity.surname }}
           </a>
