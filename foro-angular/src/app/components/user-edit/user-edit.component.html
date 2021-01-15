@@ -12,11 +12,11 @@
         Ha ocurrido un error al realizar el registro
     </div>
 
-    <form class="col-md-5 ml-0 pl-0" #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)">
+    <form class="col-md-5 ml-0 pl-0" #userEditForm="ngForm" (ngSubmit)="onSubmit(userEditForm)">
         <div class="form-group">
             <label for="name">Nombre:</label>
             <input type="text" name="name" placeholder="Escribe tu numbre" #name="ngModel" [(ngModel)]="user.name"
-            required pattern="[a-zA-ZÀ-ÿ ]+" class="form-control">
+                required pattern="[a-zA-ZÀ-ÿ ]+" class="form-control">
 
             <small *ngIf="!name.valid && name.touched" class="invalid-feedback d-block">
                 El nombre que ha introducido no es valido!
@@ -25,8 +25,8 @@
 
         <div class="form-group">
             <label for="surname">Apellidos:</label>
-            <input type="text" name="surname" placeholder="Escribe tus apellidos" #surname="ngModel" [(ngModel)]="user.surname"
-            required pattern="[a-zA-ZÀ-ÿ ]+" class="form-control">
+            <input type="text" name="surname" placeholder="Escribe tus apellidos" #surname="ngModel"
+                [(ngModel)]="user.surname" required pattern="[a-zA-ZÀ-ÿ ]+" class="form-control">
 
             <small *ngIf="!surname.valid && surname.touched" class="invalid-feedback d-block">
                 El apellido que ha introducido no es valido!
@@ -36,7 +36,7 @@
         <div class="form-group">
             <label for="email">Correo:</label>
             <input type="email" name="email" placeholder="Escribe tu email" #email="ngModel" [(ngModel)]="user.email"
-            required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" class="form-control">
+                required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" class="form-control">
 
             <small *ngIf="!email.valid && email.touched" class="invalid-feedback d-block">
                 El email que ha introducido no es valido!
@@ -44,19 +44,18 @@
         </div>
 
         <div class="form-group">
-            <label for="password">Contrasena:</label>
-            <input type="password" name="password" placeholder="Escribe tu password" #password="ngModel" [(ngModel)]="user.password"
-            required  class="form-control">
-
-            <small *ngIf="!password.valid && password.touched" class="invalid-feedback d-block">
-                El password que ha introducido no es valido!
-            </small>
+            <label for="avatar">Foto</label>
+            <angular-file-uploader
+                [config]="afuConfig"
+                [resetUpload]=resetVar
+                (ApiResponse)="avatarUpload($event)">
+            >
+            </angular-file-uploader>
         </div>
 
         <div class="form-group">
-            <input type="submit" [value]="page_title" class="btn btn-success" [disabled]="registerForm.invalid">
+            <input type="submit" [value]="'Guardar'" class="btn btn-success" [disabled]="userEditForm.invalid">
         </div>
     </form>
 
 </div>
-

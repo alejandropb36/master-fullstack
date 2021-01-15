@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { Routing, AppRoutingProviders } from 'src/app/app.routing';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { AngularFileUploaderModule } from "angular-file-uploader";
 
 import { AppComponent } from './app.component';
 import { RegisterComponent } from './components/register/register.component';
@@ -22,6 +23,7 @@ import { UserEditComponent } from './components/user-edit/user-edit.component';
     BrowserModule,
     FormsModule,
     HttpClientModule,
+    AngularFileUploaderModule,
     Routing
   ],
   providers: [
