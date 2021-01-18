@@ -56,6 +56,22 @@ export class UserEditComponent implements OnInit {
 
   onSubmit(form: NgForm): void {
     console.log(form);
+
+    this.userService.update(this.user).subscribe(
+      response => {
+        if(!response.user) {
+          this.status = 'error';
+        } else {
+          this.status = 'success';
+          localStorage.setItem('identity', JSON.stringify(this.user));
+        }
+
+      },
+      error => {
+        this.status = 'error';
+        console.log(error);
+      }
+    )
   }
 
   avatarUpload(data: any): void {

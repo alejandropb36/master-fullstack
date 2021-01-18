@@ -39,7 +39,7 @@ export class UserService {
             user.getToken = getToken;
         }
 
-        const url = this.url + 'login'
+        const url = this.url + 'login';
 
         const headres = new HttpHeaders().set(
             'Content-Type', 'application/json'
@@ -71,5 +71,14 @@ export class UserService {
         }
 
         return this.token;
+    }
+
+    update(user: User): Observable<any> {
+        const token = this.getToken();
+        const headers = new HttpHeaders().set('Content-Type', 'application/json')
+            .set('Authorization', token);
+        const url = this.url + 'update';
+
+        return this._httpClient.put(url, user, { headers });
     }
 }
