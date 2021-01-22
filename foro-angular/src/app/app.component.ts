@@ -1,5 +1,6 @@
 import { Component , OnInit, DoCheck} from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
+import { global } from './services/global';
 import { UserService } from './services/user.service';
 
 @Component({
@@ -12,6 +13,7 @@ export class AppComponent implements OnInit, DoCheck {
   public title = 'Foro en angular';
   public identity: any;
   public token: string;
+  public url: string;
 
   constructor(
     private _userService: UserService,
@@ -20,6 +22,7 @@ export class AppComponent implements OnInit, DoCheck {
   ) {
     this.token = this._userService.getToken();
     this.identity = this._userService.getIdentity();
+    this.url = global.url;
   }
 
   ngOnInit(): void {
