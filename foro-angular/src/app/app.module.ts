@@ -10,6 +10,10 @@ import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
 import { UserEditComponent } from './components/user-edit/user-edit.component';
+import { MainComponent } from './panel/components/main/main.component';
+import { AddComponent } from './panel/components/add/add.component';
+import { EditComponent } from './panel/components/edit/edit.component';
+import { ListComponent } from './panel/components/list/list.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +21,11 @@ import { UserEditComponent } from './components/user-edit/user-edit.component';
     RegisterComponent,
     LoginComponent,
     HomeComponent,
-    UserEditComponent
+    UserEditComponent,
+    MainComponent,
+    AddComponent,
+    EditComponent,
+    ListComponent
   ],
   imports: [
     BrowserModule,
