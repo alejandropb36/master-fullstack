@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Topic } from 'src/app/models/topic';
@@ -30,6 +31,11 @@ export class AddComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  onSubmit(form: NgForm): void {
+    console.log(form);
+    console.log(this.topic);
   }
 
 }
