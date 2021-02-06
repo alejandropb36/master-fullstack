@@ -14,7 +14,7 @@
         <tbody>
             <tr *ngFor="let topic of topics">
                 <td>{{topic.title}}</td>
-                <td>{{topic.date}}</td>
+                <td>{{ topic.date | amLocale: 'es' | amDateFormat: 'LL' }}</td>
                 <td>
                     <button class="btn btn-sm btn-warning mr-2">Editar</button>
                     <button class="btn btn-sm btn-danger">Eliminar</button>
