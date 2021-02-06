@@ -63,6 +63,19 @@ export class EditComponent implements OnInit {
 
   onSubmit(form: NgForm): void {
     console.log(form);
+
+    this._topicService.update(this.token, this.topic).subscribe(
+      response => {
+        this.status = response.status;
+        if (this.status === 'success' && response.topic) {
+          this.topic = response.topic;
+        }
+      },
+      error => {
+        console.log(error);
+        this.status = 'error';
+      }
+    );
   }
 
 }

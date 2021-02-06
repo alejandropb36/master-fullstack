@@ -51,4 +51,13 @@ export class TopicService {
 
         return this._httpClient.get(url, {headers});
     }
+
+    update(token: string, topic: Topic): Observable<any> {
+        const url = this.url + 'topic/' + topic._id;
+        const headers = new HttpHeaders()
+            .set('Content-Type', 'application/json')
+            .set('Authorization', token);
+
+        return this._httpClient.put(url, topic, {headers});
+    }
 }

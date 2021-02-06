@@ -1,7 +1,11 @@
 <div class="col-lg-10">
     <h3>{{ page_title }}</h3>
 
-    <div class="alert alert-danger col-md-5 mt-3" *ngIf="status === 'error'">
+    <div class="alert alert-success col-md-12 mt-3" *ngIf="status === 'success'">
+        El tema se ha guardado correctamente
+    </div>
+
+    <div class="alert alert-danger col-md-12 mt-3" *ngIf="status === 'error'">
         Ha ocurrido un error al guardar el tema
     </div>
 
