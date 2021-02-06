@@ -28,6 +28,14 @@ export class TopicService {
         return this._httpClient.post(url, topic, {headers});
     }
 
+    getTopic(topicId: string): Observable<any> {
+        const url = this.url + 'topic/' + topicId;
+        const headers = new HttpHeaders()
+            .set('Content-Type', 'application/json');
+
+        return this._httpClient.get(url, {headers});
+    }
+
     getTopics(page: number): Observable<any> {
         const url = this.url + 'topics/' + page && page > 0 ? page.toString() : '';
         const headers = new HttpHeaders()
