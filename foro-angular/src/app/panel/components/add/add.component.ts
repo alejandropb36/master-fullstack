@@ -36,9 +36,19 @@ export class AddComponent implements OnInit {
   }
 
   onSubmit(form: NgForm): void {
-    console.log(form);
-    console.log(this.topic);
-    this._topicService.prueba();
+    this._topicService.addTopic(this.token, this.topic).subscribe(
+      response => {
+        this.status = response.status;
+        if (this.status === 'success' && response.topic) {
+          this.topic = response.topic;
+          this._router.navigate(['/panel']);
+        }
+      },
+      error => {
+        this.status = 'error';
+        console.log(error);
+      }
+    )
   }
 
 }

@@ -18,4 +18,13 @@ export class TopicService {
     prueba(): void {
         console.log('Hola mundo desde el servicio de topic');
     }
+
+    addTopic(token: string, topic: Topic): Observable<any> {
+        const url = this.url + 'topic';
+        const headers = new HttpHeaders()
+            .set('Content-Type', 'application/json')
+            .set('Authorization', token);
+
+        return this._httpClient.post(url, topic, {headers});
+    }
 }
