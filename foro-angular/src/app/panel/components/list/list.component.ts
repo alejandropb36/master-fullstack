@@ -47,4 +47,8 @@ export class ListComponent implements OnInit {
     )
   }
 
+  deleteTopic(topicId: string): void {
+    console.log('Borrar: ' + topicId);
+  }
+
 }
