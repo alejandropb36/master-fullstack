@@ -32,6 +32,10 @@ export class ListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getTopics();
+  }
+
+  getTopics(): void {
     this._topicService.getTopicsByUser(this.identity._id).subscribe(
       response => {
         console.log(response);
@@ -44,11 +48,20 @@ export class ListComponent implements OnInit {
       error => {
         console.log(error);
       }
-    )
+    );
   }
 
   deleteTopic(topicId: string): void {
     console.log('Borrar: ' + topicId);
+    this._topicService.delete(this.token, topicId).subscribe(
+      response => {
+        this.getTopics();
+      },
+      error => {
+        console.log(error);
+      }
+    );
+
   }
 
 }

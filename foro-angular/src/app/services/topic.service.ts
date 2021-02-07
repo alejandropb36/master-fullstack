@@ -60,4 +60,13 @@ export class TopicService {
 
         return this._httpClient.put(url, topic, {headers});
     }
+
+    delete(token: string, topicId: string): Observable<any> {
+        const url = this.url + 'topic/' + topicId;
+        const headers = new HttpHeaders()
+            .set('Content-Type', 'application/json')
+            .set('Authorization', token);
+
+        return this._httpClient.delete(url, {headers});
+    }
 }
