@@ -36,8 +36,8 @@ export class TopicService {
         return this._httpClient.get(url, {headers});
     }
 
-    getTopics(page: number): Observable<any> {
-        const url = this.url + 'topics/' + page && page > 0 ? page.toString() : '';
+    getTopics(page: number = 1): Observable<any> {
+        const url = this.url + 'topics/' + page;
         const headers = new HttpHeaders()
             .set('Content-Type', 'application/json');
 

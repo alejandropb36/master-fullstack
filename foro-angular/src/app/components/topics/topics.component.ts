@@ -30,7 +30,22 @@ export class TopicsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getTopics(1);
+  }
 
+  getTopics(page: number = 1): void {
+    this._topicService.getTopics(page).subscribe(
+      response => {
+        if (response.topics) {
+          this.topics = response.topics.docs;
+        } else {
+          this._router.navigate(['/inicio']);
+        }
+      },
+      error => {
+        console.log(error);
+      }
+    );
   }
 
 }
