@@ -19,4 +19,11 @@
 
       <div class="clearfix"></div>
       <!-- Navegacion de las pagina -->
+      <nav aria-label="Page navigation example" class="mt-2">
+        <ul class="pagination">
+          <li class="page-item"><a class="page-link" [routerLink]="['/temas', prev_page]">Previous</a></li>
+          <li class="page-item" *ngFor="let numberPage of numberPages"><a class="page-link" [routerLink]="['/temas', numberPage]">{{numberPage}}</a></li>
+          <li class="page-item"><a class="page-link" [routerLink]="['/temas', next_page]">Next</a></li>
+        </ul>
+      </nav>
 </div>

@@ -17,6 +17,7 @@ export class TopicsComponent implements OnInit {
   public page: number;
   public next_page: number;
   public prev_page: number;
+  public numberPages: number[];
 
 
   constructor(
@@ -27,10 +28,15 @@ export class TopicsComponent implements OnInit {
     this.page_title = 'Temas';
     this.topics = [];
     this.totalPages = this.page = this.next_page = this.prev_page = 0;
+    this.numberPages = [];
   }
 
   ngOnInit(): void {
-    this.getTopics(1);
+    this._route.params.subscribe(params => {
+      let page = parseInt(params.page.toString());
+      page = typeof page === 'number' && page > 0 ? page : 1;
+      this.getTopics(page);
+    });
   }
 
   getTopics(page: number = 1): void {
@@ -38,6 +44,25 @@ export class TopicsComponent implements OnInit {
       response => {
         if (response.topics) {
           this.topics = response.topics.docs;
+          this.totalPages = response.topics.totalPages;
+          const numberPages = [];
+          for (let i = 1; i <= this.totalPages; i++) {
+            numberPages.push(i);
+          }
+          this.numberPages = numberPages;
+          this.page = response.topics.page;
+
+          if (this.page > 2) {
+            this.prev_page = this.page - 1;
+          } else {
+            this.prev_page = 1;
+          }
+
+          if (this.page < this.totalPages) {
+            this.next_page = this.page + 1;
+          } else {
+            this.next_page = this.totalPages;
+          }
         } else {
           this._router.navigate(['/inicio']);
         }
