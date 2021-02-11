@@ -14,6 +14,7 @@ import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
 import { UserEditComponent } from './components/user-edit/user-edit.component';
 import { TopicsComponent } from './components/topics/topics.component';
+import { TopicDetailComponent } from './components/topic-detail/topic-detail.component';
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import { TopicsComponent } from './components/topics/topics.component';
     HomeComponent,
     UserEditComponent,
     TopicsComponent,
+    TopicDetailComponent,
   ],
   imports: [
     BrowserModule,

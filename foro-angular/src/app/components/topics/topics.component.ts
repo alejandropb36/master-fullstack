@@ -33,8 +33,10 @@ export class TopicsComponent implements OnInit {
 
   ngOnInit(): void {
     this._route.params.subscribe(params => {
-      let page = parseInt(params.page.toString());
-      page = typeof page === 'number' && page > 0 ? page : 1;
+      let page = +params.page;
+      if (!page || page === null || page === undefined ) {
+        page = 1;
+      }
       this.getTopics(page);
     });
   }

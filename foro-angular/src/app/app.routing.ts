@@ -6,6 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from 'src/app/components/login/login.component';
 import { RegisterComponent } from 'src/app/components/register/register.component';
 import { HomeComponent } from './components/home/home.component';
+import { TopicDetailComponent } from './components/topic-detail/topic-detail.component';
 import { TopicsComponent } from './components/topics/topics.component';
 import { UserEditComponent } from './components/user-edit/user-edit.component';
 
@@ -18,6 +19,7 @@ const appRoutes: Routes = [
     { path: 'ajustes', component: UserEditComponent },
     { path: 'temas', component: TopicsComponent },
     { path: 'temas/:page', component: TopicsComponent },
+    { path: 'tema/:id', component: TopicDetailComponent },
     { path: '**', component: LoginComponent }
 ];
 
