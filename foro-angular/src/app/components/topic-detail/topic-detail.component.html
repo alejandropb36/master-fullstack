@@ -1,1 +1,19 @@
-<p>{{topic.title}}</p>
+<div class="col-lg-12 topic-box mt-3">
+    <div class="col-lg-7 float-left">
+        <h1> {{topic.title}} </h1>
+        <span class="badge badge-warning mr-2" *ngIf="topic.lang">
+            {{topic.lang}}
+        </span>
+        <span class="badge badge-primary mr-2">
+            {{topic.user.name}} {{topic.user.surname}}
+        </span>
+        <span class="badge badge-light">
+            {{topic.date | amLocale: 'es' | amTimeAgo}}
+        </span>
+
+        <p class="topic-content mt-3"> {{topic.content}} </p>
+
+        <p id="topic-code" class="mt-3" *ngIf="topic.code"> {{topic.code}} </p>
+    </div>
+
+</div>
