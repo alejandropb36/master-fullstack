@@ -17,5 +17,24 @@
             <ngx-highlight-js lang="{{topic.lang ? topic.lang : 'bash'}}" [code]="topic.code"></ngx-highlight-js>
         </p>
     </div>
+    <div class="clearfix"></div>
+    <div id="comment-box" class="col-lg-9 mt-3">
+        <h3>Comentarios</h3>
+        <hr>
+
+        <form #formComment="ngForm" (ngSubmit)="onSubmit(formComment)" *ngIf="identity">
+            <div class="form-group">
+                <label for="content">Contenido:</label>
+                <textarea type="text" name="content" placeholder="Escribe el Contenido" #content="ngModel" [(ngModel)]="comment.content"
+                    required  class="form-control"></textarea>
+    
+                <small *ngIf="!content.valid && content.touched" class="invalid-feedback d-block">
+                    El Contenido no es valido!
+                </small>
+            </div>
+
+            <input type="submit" class="btn btn-success" value="Commentar" [disabled]="formComment.invalid">
+        </form>
+    </div>
 
 </div>
