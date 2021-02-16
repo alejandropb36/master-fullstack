@@ -1,6 +1,7 @@
 // Importar los modulos de router
 import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { UserGuard } from './services/user.guard';
 
 // Importar componentes
 import { LoginComponent } from 'src/app/components/login/login.component';
@@ -16,7 +17,7 @@ const appRoutes: Routes = [
     { path: 'inicio', component: HomeComponent },
     { path: 'login', component: LoginComponent },
     { path: 'registro', component: RegisterComponent },
-    { path: 'ajustes', component: UserEditComponent },
+    { path: 'ajustes', component: UserEditComponent, canActivate: [UserGuard] },
     { path: 'temas', component: TopicsComponent },
     { path: 'temas/:page', component: TopicsComponent },
     { path: 'tema/:id', component: TopicDetailComponent },

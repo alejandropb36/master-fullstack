@@ -8,6 +8,8 @@ import { MomentModule } from 'ngx-moment';
 import { NgxHighlightJsModule } from '@nowzoo/ngx-highlight-js';
 
 import { PanelModule } from './panel/panel.module';
+import { UserService } from './services/user.service';
+import { UserGuard } from './services/user.guard';
 
 import { AppComponent } from './app.component';
 import { RegisterComponent } from './components/register/register.component';
@@ -39,7 +41,9 @@ import { TopicDetailComponent } from './components/topic-detail/topic-detail.com
     NgxHighlightJsModule.forRoot()
   ],
   providers: [
-    AppRoutingProviders
+    AppRoutingProviders,
+    UserGuard,
+    UserService
   ],
   bootstrap: [AppComponent]
 })
