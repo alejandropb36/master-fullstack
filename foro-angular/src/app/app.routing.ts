@@ -2,6 +2,7 @@
 import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { UserGuard } from './services/user.guard';
+import { NoIdentityGuard } from './services/no.identity.guard';
 
 // Importar componentes
 import { LoginComponent } from 'src/app/components/login/login.component';
@@ -15,8 +16,8 @@ import { UserEditComponent } from './components/user-edit/user-edit.component';
 const appRoutes: Routes = [
     { path: '', component: HomeComponent },
     { path: 'inicio', component: HomeComponent },
-    { path: 'login', component: LoginComponent },
-    { path: 'registro', component: RegisterComponent },
+    { path: 'login', component: LoginComponent, canActivate: [NoIdentityGuard] },
+    { path: 'registro', component: RegisterComponent, canActivate: [NoIdentityGuard] },
     { path: 'ajustes', component: UserEditComponent, canActivate: [UserGuard] },
     { path: 'temas', component: TopicsComponent },
     { path: 'temas/:page', component: TopicsComponent },

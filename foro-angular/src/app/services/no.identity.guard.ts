@@ -3,21 +3,21 @@ import { Router, CanActivate } from '@angular/router';
 import { UserService } from './user.service';
 
 @Injectable()
-export class UserGuard implements CanActivate {
+export class NoIdentityGuard implements CanActivate {
 
     constructor(
         private router: Router,
         private userService: UserService
     ) {}
 
-    canActivate() {
+    canActivate(): boolean {
         const identity = this.userService.getIdentity();
 
         if (identity && identity.name) {
-            return true;
-        } else {
             this.router.navigate(['/']);
             return false;
+        } else {
+            return true;
         }
     }
 }
