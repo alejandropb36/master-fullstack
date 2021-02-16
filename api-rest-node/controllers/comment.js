@@ -4,20 +4,20 @@ const validator = require('validator');
 const Topic = require('../models/topic');
 
 const controller = {
-    add: function(req, res) {
+    add: function (req, res) {
         // Recoger el Id del topic de la url
         var topicId = req.params.topicId;
 
         // Buscar por id del topic
         Topic.findById(topicId, (err, topic) => {
-            if(err) {
+            if (err) {
                 return res.status(500).send({
                     status: "error",
                     message: "Ha ocurrido un error al agregar el comentario"
                 });
             }
 
-            if(!topic) {
+            if (!topic) {
                 return res.status(404).send({
                     status: "error",
                     message: "No se ha encontrado el topic"
@@ -28,7 +28,7 @@ const controller = {
             if (req.body.content) {
                 try {
                     var validate_content = !validator.isEmpty(req.body.content);
-        
+
                 } catch (error) {
                     return res.status(400).send({
                         message: "Error al validar los datos"
@@ -41,23 +41,42 @@ const controller = {
                         user: req.user.sub,
                         content: req.body.content
                     }
-                    
+
                     topic.comments.push(comment);
                     // Guardar el topic completo
                     topic.save((err) => {
-                        if(err) {
+                        if (err) {
                             return res.status(500).send({
                                 status: "error",
                                 message: "Ha ocurrido un error al guardar el comentario"
                             });
                         }
-                        // Devolver respuesta
-                        return res.status(200).send({
-                            status: "success",
-                            topic: topic
-                        });
+
+                        Topic.findById(topic._id)
+                            .populate('user')
+                            .populate('comments.user')
+                            .exec((err, topic) => {
+                                if (err) {
+                                    return res.status(500).send({
+                                        status: "error",
+                                        message: "Error al buscar el topic"
+                                    });
+                                }
+
+                                if (!topic) {
+                                    return res.status(404).send({
+                                        status: "error",
+                                        message: "No se encontro el topic que esta buscando"
+                                    });
+                                }
+
+                                return res.status(200).send({
+                                    status: "success",
+                                    topic: topic
+                                });
+                            });
                     });
-            
+
                 } else {
                     return res.status(400).send({
                         status: "error",
@@ -69,7 +88,7 @@ const controller = {
 
     },
 
-    update: function(req, res) {
+    update: function (req, res) {
         // Conseguir el id del comentario
         var commentId = req.params.commentId;
 
@@ -88,22 +107,22 @@ const controller = {
         if (validate_content) {
             // Find an update de un sub documento
             Topic.findOneAndUpdate(
-                {"comments._id": commentId},
+                { "comments._id": commentId },
                 {
                     "$set": {
                         "comments.$.content": body.content
                     }
                 },
-                {new: true},
+                { new: true },
                 (err, topicUpdated) => {
-                    if(err) {
+                    if (err) {
                         return res.status(500).send({
                             status: "error",
                             message: "Ha ocurrido un error al actualizar el comentario"
                         });
                     }
 
-                    if(!topicUpdated) {
+                    if (!topicUpdated) {
                         return res.status(404).send({
                             status: "error",
                             message: "No se ha encontrado el topic"
@@ -123,37 +142,37 @@ const controller = {
         }
     },
 
-    delete: function(req, res) {
+    delete: function (req, res) {
         // Sacar el id del topic y del comentario a borrar
         const topicId = req.params.topicId;
         const commentId = req.params.commentId;
         // Buscar el topic
 
         Topic.findById(topicId, (err, topic) => {
-            
-            if(err) {
+
+            if (err) {
                 return res.status(500).send({
                     status: "error",
                     message: "Ha ocurrido un error al buscar el topic"
                 });
             }
 
-            if(!topic) {
+            if (!topic) {
                 return res.status(404).send({
                     status: "error",
                     message: "No se ha encontrado el topic"
                 });
             }
-            
+
             // Seleccionar el subdocumento
             var comment = topic.comments.id(commentId);
-    
+
             // Borrar el comentario
-            if(comment) {
+            if (comment) {
                 comment.remove();
                 // Guardar el topic
                 topic.save((err) => {
-                    if(err) {
+                    if (err) {
                         return res.status(500).send({
                             status: "error",
                             message: "Ha ocurrido un error al guardar el topic"
@@ -167,7 +186,7 @@ const controller = {
                         topic: topic
                     });
                 });
-    
+
             } else {
                 return res.status(404).send({
                     status: "error",

@@ -145,6 +145,7 @@ const controller = {
 
         Topic.findById(topicId)
             .populate('user')
+            .populate('comments.user')
             .exec((err, topic) => {
                 if (err) {
                     return res.status(500).send({
