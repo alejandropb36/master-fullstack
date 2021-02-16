@@ -7,6 +7,7 @@ import { TopicService } from 'src/app/services/topic.service';
 import { UserService } from 'src/app/services/user.service';
 import { CommentService } from 'src/app/services/comment.service';
 import { NgForm } from '@angular/forms';
+import { global } from 'src/app/services/global';
 
 @Component({
   selector: 'app-topic-detail',
@@ -20,6 +21,7 @@ export class TopicDetailComponent implements OnInit {
   public identity: any;
   public token: string;
   public status: string;
+  public url: string;
 
 
   constructor(
@@ -34,6 +36,7 @@ export class TopicDetailComponent implements OnInit {
     this.token = this.userService.getToken();
     this.comment = new Comment('', '', '', this.identity._id);
     this.status = '';
+    this.url = global.url;
   }
 
   ngOnInit(): void {
@@ -60,7 +63,6 @@ export class TopicDetailComponent implements OnInit {
   }
 
   onSubmit(form: NgForm): void {
-    console.log(this.comment);
     this.commentService.add(this.token, this.comment, this.topic._id).subscribe(
       response => {
         this.status = response.status;
@@ -68,10 +70,22 @@ export class TopicDetailComponent implements OnInit {
           this.topic = response.topic;
           form.reset();
         }
-        console.log(response);
       },
       error => {
         this.status = 'error';
+        console.log(error);
+      }
+    );
+  }
+
+  deleteComment(commentId: string): void {
+    this.commentService.delete(this.token, this.topic._id, commentId).subscribe(
+      response => {
+        if (response.status === 'success' && response.topic) {
+          this.topic = response.topic;
+        }
+      },
+      error => {
         console.log(error);
       }
     );
