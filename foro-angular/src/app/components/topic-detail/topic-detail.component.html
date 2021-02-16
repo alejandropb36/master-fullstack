@@ -22,6 +22,14 @@
         <h3>Comentarios</h3>
         <hr>
 
+        <div class="alert alert-success mt-3" *ngIf="status === 'success'">
+            El comentario se ha guardado correctamente
+        </div>
+    
+        <div class="alert alert-danger mt-3" *ngIf="status === 'error'">
+            Ha ocurrido un error al realizar el comentario
+        </div>
+
         <form #formComment="ngForm" (ngSubmit)="onSubmit(formComment)" *ngIf="identity">
             <div class="form-group">
                 <label for="content">Contenido:</label>
