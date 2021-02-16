@@ -9,7 +9,8 @@ export class HomeComponent implements OnInit {
 
   public page_title: string;
 
-  constructor() {
+  constructor(
+  ) {
     this.page_title = 'Bienvenido al foro de programación';
   }
 
