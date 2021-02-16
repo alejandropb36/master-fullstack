@@ -81,4 +81,24 @@ export class UserService {
 
         return this._httpClient.put(url, user, { headers });
     }
+
+    getUsers(): Observable<any> {
+        const url = this.url + 'users';
+
+        const headres = new HttpHeaders().set(
+            'Content-Type', 'application/json'
+        );
+
+        return this._httpClient.get(url, { headers: headres });
+    }
+
+    getUser(userId: string): Observable<any> {
+        const url = this.url + 'user/' + userId;
+
+        const headres = new HttpHeaders().set(
+            'Content-Type', 'application/json'
+        );
+
+        return this._httpClient.get(url, { headers: headres });
+    }
 }
