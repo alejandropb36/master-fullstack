@@ -1,1 +1,21 @@
-<p>users works!</p>
+<div class="col lg-12 mt-3">
+    <h3>{{page_title}}</h3>
+    <hr>
+
+    <ul class="list-group list-users">
+        <li class="list-group-item" *ngFor="let user of users">
+            <div class="avatar_mask_list float-left mr-3" *ngIf="!user.image">
+                <img src="assets/img/user-profile.png" [alt]="user.name">
+            </div>
+            <div class="avatar_mask_list float-left mr-3" *ngIf="user.image">
+                <img [src]="url + 'avatar/' + user.image" [alt]="user.name">
+            </div>
+            <h4>
+                <a [routerLink]="['/perfil', user._id]">{{user.name + ' ' + user.surname}}</a>
+            </h4>
+            <a [routerLink]="['/perfil', user._id]" class="btn btn-sm btn-success float-right mx-auto d-block">ver perfil</a>
+        </li>
+      </ul>
+
+      <div class="clearfix"></div>
+</div>

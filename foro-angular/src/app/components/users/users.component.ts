@@ -12,12 +12,14 @@ export class UsersComponent implements OnInit {
 
   public users: User[];
   public url: string;
+  public page_title: string;
 
   constructor(
     private userService: UserService
   ) {
     this.users = [];
     this.url = global.url;
+    this.page_title = 'Compañeros';
   }
 
   ngOnInit(): void {

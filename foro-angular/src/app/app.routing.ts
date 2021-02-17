@@ -24,7 +24,7 @@ const appRoutes: Routes = [
     { path: 'temas/:page', component: TopicsComponent },
     { path: 'tema/:id', component: TopicDetailComponent },
     { path: 'usuarios', component: UsersComponent },
-    { path: '**', component: LoginComponent }
+    { path: '**', component: LoginComponent, canActivate: [NoIdentityGuard] }
 ];
 
 // Exportar configuracion
