@@ -12,6 +12,7 @@ import { TopicDetailComponent } from './components/topic-detail/topic-detail.com
 import { TopicsComponent } from './components/topics/topics.component';
 import { UserEditComponent } from './components/user-edit/user-edit.component';
 import { UsersComponent } from './components/users/users.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 // Crear un array de rutas
 const appRoutes: Routes = [
@@ -24,6 +25,7 @@ const appRoutes: Routes = [
     { path: 'temas/:page', component: TopicsComponent },
     { path: 'tema/:id', component: TopicDetailComponent },
     { path: 'usuarios', component: UsersComponent },
+    { path: 'perfil/:id', component: ProfileComponent },
     { path: '**', component: LoginComponent, canActivate: [NoIdentityGuard] }
 ];
 
