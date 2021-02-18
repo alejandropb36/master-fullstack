@@ -15,6 +15,11 @@ export class SearchComponent implements OnInit {
   public topics: Topic[];
   public page_title: string;
   public notPaginate: boolean;
+  public totalPages: number;
+  public page: number;
+  public next_page: number;
+  public prev_page: number;
+  public numberPages: number[];
 
   constructor(
     private topicService: TopicService,
@@ -24,6 +29,8 @@ export class SearchComponent implements OnInit {
     this.topics = [];
     this.page_title = 'Buscar: ';
     this.notPaginate = true;
+    this.totalPages = this.page = this.next_page = this.prev_page = 0;
+    this.numberPages = [];
   }
 
   ngOnInit(): void {

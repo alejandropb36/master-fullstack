@@ -18,6 +18,7 @@ export class TopicsComponent implements OnInit {
   public next_page: number;
   public prev_page: number;
   public numberPages: number[];
+  public notPaginate: boolean;
 
 
   constructor(
@@ -29,6 +30,7 @@ export class TopicsComponent implements OnInit {
     this.topics = [];
     this.totalPages = this.page = this.next_page = this.prev_page = 0;
     this.numberPages = [];
+    this.notPaginate = false;
   }
 
   ngOnInit(): void {
