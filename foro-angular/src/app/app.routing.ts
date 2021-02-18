@@ -13,6 +13,7 @@ import { TopicsComponent } from './components/topics/topics.component';
 import { UserEditComponent } from './components/user-edit/user-edit.component';
 import { UsersComponent } from './components/users/users.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { SearchComponent } from './components/search/search.component';
 
 // Crear un array de rutas
 const appRoutes: Routes = [
@@ -26,6 +27,7 @@ const appRoutes: Routes = [
     { path: 'tema/:id', component: TopicDetailComponent },
     { path: 'usuarios', component: UsersComponent },
     { path: 'perfil/:id', component: ProfileComponent },
+    { path: 'buscar/:search', component: SearchComponent },
     { path: '**', component: LoginComponent, canActivate: [NoIdentityGuard] }
 ];
 

@@ -69,4 +69,12 @@ export class TopicService {
 
         return this._httpClient.delete(url, {headers});
     }
+
+    search(searchString: string): Observable<any> {
+        const url = this.url + 'search/' + searchString;
+        const headers = new HttpHeaders()
+            .set('Content-Type', 'application/json');
+
+        return this._httpClient.get(url, {headers});
+    }
 }
