@@ -93,7 +93,7 @@ export class UserService {
     }
 
     getUser(userId: string): Observable<any> {
-        const url = this.url + 'user/' + userId;
+        const url = this.url + 'users/' + userId;
 
         const headres = new HttpHeaders().set(
             'Content-Type', 'application/json'
