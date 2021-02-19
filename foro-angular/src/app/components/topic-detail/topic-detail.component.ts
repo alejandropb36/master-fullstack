@@ -34,7 +34,9 @@ export class TopicDetailComponent implements OnInit {
     this.topic = new Topic('', '', '', '', '', '', '', null);
     this.identity = this.userService.getIdentity();
     this.token = this.userService.getToken();
-    this.comment = new Comment('', '', '', this.identity._id);
+    if (this.identity) {
+      this.comment = new Comment('', '', '', this.identity._id);
+    }
     this.status = '';
     this.url = global.url;
   }
