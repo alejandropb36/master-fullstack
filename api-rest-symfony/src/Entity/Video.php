@@ -161,12 +161,4 @@ class Video
 
         return $this;
     }
-
-    /**
-     * @return Collection\Video[]
-     */
-    public function getVideos(): Collection {
-        return $this->videos;
-    }
-
 }
