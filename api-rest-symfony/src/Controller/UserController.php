@@ -48,4 +48,31 @@ class UserController extends AbstractController
 
         return $this->restjson($videos);
     }
+
+
+    public function register(Request $request) {
+        // Recoger los dattos por post
+
+        // Decodificar el json
+
+        // Respuesta por defecto
+        $data = [
+            'status' => 'error',
+            'code' => 400,
+            'message' => 'El usuario no se ha creado'
+        ];
+
+        // Comprobar y validar datos
+
+        // Si la validacion es correcta, crear el onjeto de usuario
+
+        // Cifrar contra
+
+        // Comprobar si el usuario existe
+
+        // Si no existe, guardarlo en la base de datos
+
+        // Hacer respuesta en json
+        return $this->restjson($data);
+    }
 }
