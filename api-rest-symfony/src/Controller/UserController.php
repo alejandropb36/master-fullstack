@@ -5,6 +5,7 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Entity\User;
 use App\Entity\Video;
 
@@ -46,12 +47,14 @@ class UserController extends AbstractController
         // }
 
 
-        return $this->restjson($videos);
+        return new JsonResponse($videos);
     }
 
 
     public function register(Request $request) {
         // Recoger los dattos por post
+        $content = $request->getContent();
+        $content = \json_decode($content);
 
         // Decodificar el json
 
@@ -59,7 +62,8 @@ class UserController extends AbstractController
         $data = [
             'status' => 'error',
             'code' => 400,
-            'message' => 'El usuario no se ha creado'
+            'message' => 'El usuario no se ha creado',
+            'body' => $content
         ];
 
         // Comprobar y validar datos
@@ -73,6 +77,6 @@ class UserController extends AbstractController
         // Si no existe, guardarlo en la base de datos
 
         // Hacer respuesta en json
-        return $this->restjson($data);
+        return new JsonResponse($data, Response::HTTP_CREATED);
     }
 }
