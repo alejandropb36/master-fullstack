@@ -6,6 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Validator\Validation;
+use Symfony\Component\Validator\Constraints\Email;
 use App\Entity\User;
 use App\Entity\Video;
 
@@ -51,20 +53,42 @@ class UserController extends AbstractController
     }
 
 
-    public function register(Request $request) {
+    public function register(Request $request): Response
+    {
         // Recoger los dattos por post
         $content = $request->getContent();
-        $content = \json_decode($content);
-
+        
         // Decodificar el json
+        $content = \json_decode($content);
 
         // Respuesta por defecto
         $data = [
             'status' => 'error',
             'code' => 400,
-            'message' => 'El usuario no se ha creado',
-            'body' => $content
+            'message' => 'El usuario no se ha creado'
         ];
+
+        if ($content == null) {
+            return new JsonResponse($data, 400);
+        }
+
+        $name = (!empty($content->name)) ? $content->name : null;
+        $surname = (!empty($content->surname)) ? $content->surname : null;
+        $email = (!empty($content->email)) ? $content->email : null;
+        $password = (!empty($content->password)) ? $content->password : null;
+
+        $validator = Validation::createValidator();
+        $validateEmail = $validator->validate($email, [
+            new Email()
+        ]);
+
+        if (!empty($email) && count($validateEmail) == 0 && $name && $password && $surname) {
+            $data = [
+                'status' => 'success',
+                'code' => 200,
+                'message' => 'Validacion correcta'
+            ];
+        }
 
         // Comprobar y validar datos
 
