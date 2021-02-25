@@ -100,13 +100,35 @@ class UserController extends AbstractController
             $data = $user;
 
             // Comprobar si el usuario existe
+            $doctrine = $this->getDoctrine();
+            $em = $doctrine->getManager();
+            $userRepo = $doctrine->getRepository(User::class);
+            $issetUser = $userRepo->findBy([
+                'email' => $user->getEmail()
+            ]);
 
             // Si no existe, guardarlo en la base de datos
+            if (count($issetUser) == 0) {
+                // Guardo el usuario
+                $em->persist($user);
+                $em->flush();
 
-            // Hacer respuesta en json
+                $data = [
+                    'status' => 'success',
+                    'code' => 200,
+                    'message' => 'Usuario guardado correctamente',
+                    'user' => $user
+                ];
+            } else {
+                $data = [
+                    'status' => 'error',
+                    'code' => 400,
+                    'message' => 'El usuario ya existe'
+                ];
+            }
         }
-
         
+        // Hacer respuesta en json
         return new JsonResponse($data, Response::HTTP_CREATED);
     }
 }
