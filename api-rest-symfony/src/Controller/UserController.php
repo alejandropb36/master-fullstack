@@ -72,6 +72,7 @@ class UserController extends AbstractController
             return new JsonResponse($data, 400);
         }
 
+        // Comprobar y validar datos
         $name = (!empty($content->name)) ? $content->name : null;
         $surname = (!empty($content->surname)) ? $content->surname : null;
         $email = (!empty($content->email)) ? $content->email : null;
@@ -83,24 +84,29 @@ class UserController extends AbstractController
         ]);
 
         if (!empty($email) && count($validateEmail) == 0 && $name && $password && $surname) {
-            $data = [
-                'status' => 'success',
-                'code' => 200,
-                'message' => 'Validacion correcta'
-            ];
+
+            // Si la validacion es correcta, crear el onjeto de usuario
+            $user = new User();
+            $user->setName($name);
+            $user->setSurname($surname);
+            $user->setEmail($email);
+            $user->setRole('ROLE_USER');
+            $user->setCreatedAt(new \Datetime('now'));
+
+            // Cifrar contra
+            $pwd = \hash('sha256', $password);
+            $user->setPassword($pwd);
+
+            $data = $user;
+
+            // Comprobar si el usuario existe
+
+            // Si no existe, guardarlo en la base de datos
+
+            // Hacer respuesta en json
         }
 
-        // Comprobar y validar datos
-
-        // Si la validacion es correcta, crear el onjeto de usuario
-
-        // Cifrar contra
-
-        // Comprobar si el usuario existe
-
-        // Si no existe, guardarlo en la base de datos
-
-        // Hacer respuesta en json
+        
         return new JsonResponse($data, Response::HTTP_CREATED);
     }
 }
