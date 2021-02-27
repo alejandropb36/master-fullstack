@@ -124,10 +124,45 @@ class UserController extends AbstractController
 
     public function login(Request $request): Response
     {
+        $content = $request->getContent();
+        $content = json_decode($content);
+
+        
+        if (!$content || $content == null) {
+            $data = [
+                'status' => 'error',
+                'code' => 400,
+                'message' => 'Error al enviar los datos'
+            ];
+            return new JsonResponse($data, Response::HTTP_BAD_REQUEST);
+        }
+
+        $email = (!empty($content->email)) ? $content->email : null;
+        $password = (!empty($content->password)) ? $content->password : null;
+        $getToken = (!empty($content->getToken)) ? $content->getToken : null;
+
+        $validator = Validation::createValidator();
+        $validateEmail = $validator->validate($email, [
+            new Email()
+        ]);
+
+        if ($email != null && $password != null && count($validateEmail) == 0) {
+            $pwd = hash('sha256', $password);
+
+        } else {
+            $data = [
+                'status' => 'error',
+                'code' => 400,
+                'message' => 'Los datos no son validos'
+            ];
+            return new JsonResponse($data, Response::HTTP_BAD_REQUEST);
+        }
+
         $data = [
             'status' => 'success',
             'code' => 200,
-            'message' => 'Accion de login'
+            'message' => 'Accion de login',
+            'pwd' => $pwd
         ];
 
         return new JsonResponse($data, Response::HTTP_OK);
