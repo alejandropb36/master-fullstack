@@ -32,24 +32,14 @@ class UserController extends AbstractController
         $video_repo = $this->getDoctrine()->getRepository(Video::class);
 
         $users = $user_repo->findAll();
-        $user = $user_repo->find(1);
 
         $data = [
             'message' => 'Welcome to your new controller!',
             'path' => 'src/Controller/UserController.php',
         ];
-        $videos = $video_repo->findAll();
-
-        // foreach($users as $user) {
-        //     echo "<h1>" . $user->getName() . "</h1>";
-
-        //     foreach($user->getVideos() as $video) {
-        //         echo "<h3>" . $video->getTitle() . " - " . $video->getUser()->getEmail() . "</h3>";
-        //     }
-        // }
 
 
-        return new JsonResponse($videos);
+        return new JsonResponse($users);
     }
 
 
@@ -130,5 +120,16 @@ class UserController extends AbstractController
         
         // Hacer respuesta en json
         return new JsonResponse($data, Response::HTTP_CREATED);
+    }
+
+    public function login(Request $request): Response
+    {
+        $data = [
+            'status' => 'success',
+            'code' => 200,
+            'message' => 'Accion de login'
+        ];
+
+        return new JsonResponse($data, Response::HTTP_OK);
     }
 }
