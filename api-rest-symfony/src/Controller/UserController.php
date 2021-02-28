@@ -149,6 +149,13 @@ class UserController extends AbstractController
 
         if ($email != null && $password != null && count($validateEmail) == 0) {
             $pwd = hash('sha256', $password);
+            if ($getToken) {
+                $signup = $jwtAuth->signup($email, $pwd, $getToken);
+            } else {
+                $signup = $jwtAuth->signup($email, $pwd);
+            }
+    
+            return new JsonResponse($signup, Response::HTTP_OK);
 
         } else {
             $data = [
@@ -158,15 +165,5 @@ class UserController extends AbstractController
             ];
             return new JsonResponse($data, Response::HTTP_BAD_REQUEST);
         }
-
-        $data = [
-            'status' => 'success',
-            'code' => 200,
-            'message' => 'Accion de login',
-            'pwd' => $pwd,
-            'message' => $jwtAuth->signup()
-        ];
-
-        return new JsonResponse($data, Response::HTTP_OK);
     }
 }
