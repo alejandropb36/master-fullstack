@@ -10,6 +10,7 @@ use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\Constraints\Email;
 use App\Entity\User;
 use App\Entity\Video;
+use App\Services\JwtAuth;
 
 class UserController extends AbstractController
 {
@@ -122,7 +123,7 @@ class UserController extends AbstractController
         return new JsonResponse($data, Response::HTTP_CREATED);
     }
 
-    public function login(Request $request): Response
+    public function login(Request $request, JwtAuth $jwtAuth): Response
     {
         $content = $request->getContent();
         $content = json_decode($content);
@@ -162,7 +163,8 @@ class UserController extends AbstractController
             'status' => 'success',
             'code' => 200,
             'message' => 'Accion de login',
-            'pwd' => $pwd
+            'pwd' => $pwd,
+            'message' => $jwtAuth->signup()
         ];
 
         return new JsonResponse($data, Response::HTTP_OK);
