@@ -15,6 +15,13 @@ use App\Services\JwtAuth;
 class UserController extends AbstractController
 {
 
+    private $jwtAuthService;
+
+    public function __construct(JwtAuth $jwtAuthService)
+    {
+        $this->jwtAuthService = $jwtAuthService;
+    }
+
     private function restjson($data) {
         $json = $this->get('serializer')->serialize($data, 'json');
 
@@ -123,7 +130,7 @@ class UserController extends AbstractController
         return new JsonResponse($data, Response::HTTP_CREATED);
     }
 
-    public function login(Request $request, JwtAuth $jwtAuth): Response
+    public function login(Request $request): Response
     {
         $content = $request->getContent();
         $content = json_decode($content);
@@ -150,9 +157,9 @@ class UserController extends AbstractController
         if ($email != null && $password != null && count($validateEmail) == 0) {
             $pwd = hash('sha256', $password);
             if ($getToken) {
-                $signup = $jwtAuth->signup($email, $pwd, $getToken);
+                $signup = $jwtAuthService->signup($email, $pwd, $getToken);
             } else {
-                $signup = $jwtAuth->signup($email, $pwd);
+                $signup = $jwtAuthService->signup($email, $pwd);
             }
     
             return new JsonResponse($signup, Response::HTTP_OK);
@@ -171,10 +178,16 @@ class UserController extends AbstractController
     {
         $authorizationHeader = $request->headers->get('Authorization');
 
+        $authCheck = $this->jwtAuthService->checkToken($authorizationHeader);
+
+        if ($authCheck) {
+            
+        }
+
         $data = [
             'status' => 'success',
             'message' => 'Metodo de edit del controlador de usuarios',
-            'headers' => $authorizationHeader,
+            'auth' => $authCheck,
         ];
 
         return new JsonResponse($data, Response::HTTP_OK);
