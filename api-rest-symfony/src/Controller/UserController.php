@@ -169,9 +169,12 @@ class UserController extends AbstractController
 
     public function edit(Request $request): Response
     {
+        $authorizationHeader = $request->headers->get('Authorization');
+
         $data = [
             'status' => 'success',
-            'message' => 'Metodo de edit del controlador de usuarios'
+            'message' => 'Metodo de edit del controlador de usuarios',
+            'headers' => $authorizationHeader,
         ];
 
         return new JsonResponse($data, Response::HTTP_OK);
