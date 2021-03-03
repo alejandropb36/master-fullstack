@@ -179,16 +179,30 @@ class UserController extends AbstractController
         $authorizationHeader = $request->headers->get('Authorization');
 
         $authCheck = $this->jwtAuthService->checkToken($authorizationHeader);
+        
+        $data = [
+            'status' => 'error',
+            'message' => 'Usuario no actualizado'
+        ];
 
         if ($authCheck) {
+            $doctrine = $this->getDoctrine();
+            $em = $doctrine->getManager();
+
+            $identity = $this->jwtAuthService->checkToken($authorizationHeader, true);
             
+            $userRepo = $doctrine->getRepository(User::class);
+            $user = $userRepo->findOneBy([
+                'id' => $identity->sub
+            ]);
+            $json = json_decode($request->getContent());
+
+            if (!empty($json)) {
+                
+            }
         }
 
-        $data = [
-            'status' => 'success',
-            'message' => 'Metodo de edit del controlador de usuarios',
-            'auth' => $authCheck,
-        ];
+       
 
         return new JsonResponse($data, Response::HTTP_OK);
     }
