@@ -195,15 +195,51 @@ class UserController extends AbstractController
             $user = $userRepo->findOneBy([
                 'id' => $identity->sub
             ]);
-            $json = json_decode($request->getContent());
+            $content = json_decode($request->getContent());
 
-            if (!empty($json)) {
-                
+            if (!empty($content)) {
+                $name = (!empty($content->name)) ? $content->name : null;
+                $surname = (!empty($content->surname)) ? $content->surname : null;
+                $email = (!empty($content->email)) ? $content->email : null;
+        
+                $validator = Validation::createValidator();
+                $validateEmail = $validator->validate($email, [
+                    new Email()
+                ]);
+        
+                if (!empty($email) && count($validateEmail) == 0 && $name && $surname) {
+                    $user->setEmail($email);
+                    $user->setName($name);
+                    $user->setSurname($surname);
+
+                    $issetUser = $userRepo->findBy([
+                        'email' => $email
+                    ]);
+                    if (count($issetUser) == 0 || $email == $identity->email) {
+                        $em->persist($user);
+                        $em->flush();
+                        $data = [
+                            'status' => 'success',
+                            'user' => $user
+                        ];
+
+                        return new JsonResponse($data, Response::HTTP_OK);
+                    } else {
+
+                        $data = [
+                            'status' => 'error',
+                            'message' => 'Este email ya se encuentra en uso'
+                        ];
+                    }
+                } else {
+                    $data = [
+                        'status' => 'error',
+                        'message' => 'Error al validar los datos'
+                    ];
+                }
             }
         }
 
-       
-
-        return new JsonResponse($data, Response::HTTP_OK);
+        return new JsonResponse($data, Response::HTTP_BAD_REQUEST);
     }
 }
