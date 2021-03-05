@@ -123,6 +123,7 @@ class UserController extends AbstractController
                     'code' => 400,
                     'message' => 'El usuario ya existe'
                 ];
+                return new JsonResponse($data, Response::HTTP_BAD_REQUEST);
             }
         }
         
