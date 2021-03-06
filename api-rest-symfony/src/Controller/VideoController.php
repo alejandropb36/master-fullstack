@@ -91,4 +91,13 @@ class VideoController extends AbstractController
         }
     }
 
+    public function list(Request $request): Response
+    {
+        $data = [
+            'status' => 'success',
+            'message' => 'List de videos'
+        ];
+        return $this->json($data, Response::HTTP_OK);
+    }
+
 }
