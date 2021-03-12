@@ -158,9 +158,9 @@ class UserController extends AbstractController
         if ($email != null && $password != null && count($validateEmail) == 0) {
             $pwd = hash('sha256', $password);
             if ($getToken) {
-                $signup = $jwtAuthService->signup($email, $pwd, $getToken);
+                $signup = $this->jwtAuthService->signup($email, $pwd, $getToken);
             } else {
-                $signup = $jwtAuthService->signup($email, $pwd);
+                $signup = $this->jwtAuthService->signup($email, $pwd);
             }
     
             return new JsonResponse($signup, Response::HTTP_OK);

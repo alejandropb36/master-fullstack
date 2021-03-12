@@ -12,13 +12,17 @@ use App\Entity\User;
 use App\Entity\Video;
 use App\Services\JwtAuth;
 
+use Knp\Component\Pager\PaginatorInterface;
+
 class VideoController extends AbstractController
 {
     private $jwtAuthService;
+    private $paginatorService;
 
-    public function __construct(JwtAuth $jwtAuthService)
+    public function __construct(JwtAuth $jwtAuthService, PaginatorInterface $paginatorService)
     {
         $this->jwtAuthService = $jwtAuthService;
+        $this->paginatorService = $paginatorService;
     }
 
     public function index(): Response
@@ -93,11 +97,46 @@ class VideoController extends AbstractController
 
     public function list(Request $request): Response
     {
-        $data = [
-            'status' => 'success',
-            'message' => 'List de videos'
-        ];
-        return $this->json($data, Response::HTTP_OK);
+        $token = $request->headers->get('Authorization', null);
+
+        $authCheck = $this->jwtAuthService->checkToken($token);
+        
+        if ($authCheck) {
+            $identity = $this->jwtAuthService->checkToken($token, true);
+            $doctrine = $this->getDoctrine();
+            $em = $doctrine->getManager();
+
+            $dql = "SELECT v FROM App\Entity\Video v WHERE v.user = {$identity->sub} ORDER BY v.id DESC";
+            $query = $em->createQuery($dql);
+
+
+            $page = $request->query->getInt('page', 1);
+            $itemsPerPage = 5;
+
+            $pagination = $this->paginatorService->paginate($query, $page, $itemsPerPage);
+            $total = $pagination->getTotalItemCount();
+
+            $data = [
+                'status' => 'success',
+                'pagination' => [
+                    'total' => $total,
+                    'page' => $page,
+                    'itemsPerPage' => $itemsPerPage,
+                    'totalPages' => ceil($total / $itemsPerPage),
+                ],
+                'videos' => $pagination,
+                'user_id' => $identity->sub
+            ];
+            return $this->json($data, Response::HTTP_OK);
+
+
+        } else {
+            $data = [
+                'status' => 'Unauthorized',
+                'message' => 'Token no valido'
+            ];
+            return $this->json($data, Response::HTTP_UNAUTHORIZED);
+        }
     }
 
 }
