@@ -141,13 +141,43 @@ class VideoController extends AbstractController
 
     public function video(Request $request, $id): Response 
     {
-        $data = [
-            'status' => 'success',
-            'message' => 'metodo de detail video',
-            'id' => $id
-        ];
+        $token = $request->headers->get('Authorization', null);
 
-        return $this->json($data, Response::HTTP_OK);
+        $authCheck = $this->jwtAuthService->checkToken($token);
+
+        if ($authCheck) {
+            $identity = $this->jwtAuthService->checkToken($token, true);
+
+            $video = $this->getDoctrine()->getRepository(Video::class)->findOneBy([
+                'id' => $id,
+                'user' => $identity->sub
+            ]);
+
+            if ($video && is_object($video)) {
+
+                $data = [
+                    'status' => 'success',
+                    'video' => $video
+                ];
+        
+                return $this->json($data, Response::HTTP_OK);
+
+            } else {
+                $data = [
+                    'status' => 'Not Found',
+                    'meesage' => 'El video no se ha encontrado'
+                ];
+                return $this->json($data, Response::HTTP_NOT_FOUND); 
+            }
+
+
+        } else {
+            $data = [
+                'status' => 'unauthorized',
+                'meesage' => 'Unauthorized, token no valido'
+            ];
+            return $this->json($data, Response::HTTP_UNAUTHORIZED); 
+        }
     }
 
 }
