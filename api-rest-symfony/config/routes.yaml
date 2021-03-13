@@ -25,8 +25,9 @@ user_edit:
 
 # Rutas para video#
 video:
-    path: /video
-    controller: App\Controller\VideoController::index
+    path: /video/{id}
+    controller: App\Controller\VideoController::video
+    methods: [GET]
 
 video_new:
     path: /video/new
