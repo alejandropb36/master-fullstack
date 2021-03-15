@@ -180,4 +180,43 @@ class VideoController extends AbstractController
         }
     }
 
+    public function remove(Request $request, $id): Response
+    {
+        $token = $request->headers->get('Authorization', null);
+
+        $authCheck = $this->jwtAuthService->checkToken($token);
+
+        if ($authCheck) {
+            $identity = $this->jwtAuthService->checkToken($token, true);
+            $doctrine = $this->getDoctrine();
+            $em = $doctrine->getManager();
+
+            $video = $doctrine->getRepository(Video::class)->findOneBy(['id' => $id]);
+
+            if ($video && is_object($video) && $identity->sub == $video->getUser()->getId()) {
+                $em->remove($video);
+                $em->flush();
+                $data = [
+                    'status' => 'success',
+                    'meesage' => 'El video fue eliminado correctamente',
+                    'video' => $video
+                ];
+                return $this->json($data, Response::HTTP_OK); 
+            } else {
+                $data = [
+                    'status' => 'not found',
+                    'meesage' => 'El video no se ha encontrado'
+                ];
+                return $this->json($data, Response::HTTP_NOT_FOUND);
+            }
+
+        } else {
+            $data = [
+                'status' => 'unauthorized',
+                'meesage' => 'Unauthorized, token no valido'
+            ];
+            return $this->json($data, Response::HTTP_UNAUTHORIZED); 
+        }
+    }
+
 }

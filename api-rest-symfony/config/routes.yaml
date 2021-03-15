@@ -29,6 +29,11 @@ video:
     controller: App\Controller\VideoController::video
     methods: [GET]
 
+video_remove:
+    path: /video/{id}
+    controller: App\Controller\VideoController::remove
+    methods: [DELETE]
+
 video_new:
     path: /video/new
     controller: App\Controller\VideoController::newVideo
