@@ -33,7 +33,7 @@ class VideoController extends AbstractController
         ]);
     }
 
-    public function newVideo(Request $request): Response
+    public function newVideo(Request $request, $id = null): Response
     {
         $token = $request->headers->get('Authorization', null);
 
@@ -53,30 +53,60 @@ class VideoController extends AbstractController
                 $doctrine = $this->getDoctrine();
                 $em = $doctrine->getManager();
 
-                $user = $doctrine->getRepository(User::class)->findOneBy([
-                    'id' => $user_id
-                ]);
+                if ($id == null) {
+    
+                    $user = $doctrine->getRepository(User::class)->findOneBy([
+                        'id' => $user_id
+                    ]);
+    
+                    $video = new Video();
+                    $video->setUser($user);
+                    $video->setTitle($title);
+                    $video->setUrl($url);
+                    $video->setDescription($description);
+                    $video->setStatus('normal');
+    
+                    $createdAt = new \Datetime('now');
+                    $video->setCreatedAt($createdAt);
+                    $video->setUpdatedAt($createdAt);
+    
+                    $em->persist($video);
+                    $em->flush();
+    
+                    $data = [
+                        'status' => 'success',
+                        'meesage' => 'Video creado correctamente',
+                        'video' => $video
+                    ];
+                    return new JsonResponse($data, Response::HTTP_OK);
+                } else {
+                    $video = $doctrine->getRepository(Video::class)->findOneBy([
+                        'id' => $id,
+                        'user' => $identity->sub
+                    ]);
 
-                $video = new Video();
-                $video->setUser($user);
-                $video->setTitle($title);
-                $video->setUrl($url);
-                $video->setDescription($description);
-                $video->setStatus('normal');
+                    if (!$video || !is_object($video)) {
+                        $data = [
+                            'status' => 'Not found',
+                            'meesage' => 'Video No de ha encontrado'
+                        ];
+                        return new JsonResponse($data, Response::HTTP_NOT_FOUND);
+                    }
+                    $video->setTitle($title);
+                    $video->setUrl($url);
+                    $video->setDescription($description);
+                    $updatedAt = new \Datetime('now');
+                    $video->setUpdatedAt($updatedAt);
 
-                $createdAt = new \Datetime('now');
-                $video->setCreatedAt($createdAt);
-                $video->setUpdatedAt($createdAt);
-
-                $em->persist($video);
-                $em->flush();
-
-                $data = [
-                    'status' => 'success',
-                    'meesage' => 'Video creado correctamente',
-                    'video' => $video
-                ];
-                return new JsonResponse($data, Response::HTTP_OK);
+                    $em->persist($video);
+                    $em->flush();
+                    $data = [
+                        'status' => 'success',
+                        'meesage' => 'Video actualizado correctamente',
+                        'video' => $video
+                    ];
+                    return new JsonResponse($data, Response::HTTP_OK);
+                }
 
             } else {
                 $data = [

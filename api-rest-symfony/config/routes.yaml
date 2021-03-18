@@ -43,3 +43,8 @@ videos:
     path: /videos
     controller: App\Controller\VideoController::list
     methods: [GET]
+
+video_edit:
+    path: /video/edit/{id}
+    controller: App\Controller\VideoController::newVideo
+    methods: [PUT]
