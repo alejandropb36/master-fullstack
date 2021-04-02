@@ -21,4 +21,14 @@ export class UserService {
 
     return this.httpClient.post(url, user, {headers});
   }
+
+  signup(user: User, getToken: boolean = false): Observable<any> {
+    if (getToken) {
+      user.getToken = true;
+    }
+    const url: string = this.apiUrl + 'login';
+    const headers: HttpHeaders = new HttpHeaders().set('Content-Type', 'aplication/json');
+
+    return this.httpClient.post(url, user, {headers});
+  }
 }
