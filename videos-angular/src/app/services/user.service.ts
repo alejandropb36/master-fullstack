@@ -31,4 +31,20 @@ export class UserService {
 
     return this.httpClient.post(url, user, {headers});
   }
+
+  getIdentity(): any {
+    const identity = JSON.parse(localStorage.getItem('identity'));
+    if (identity && identity != undefined) {
+      return identity;
+    }
+    return null;
+  }
+
+  getToken(): string {
+    const token = localStorage.getItem('token');
+    if (token && token != undefined) {
+      return token;
+    }
+    return null;
+  }
 }
