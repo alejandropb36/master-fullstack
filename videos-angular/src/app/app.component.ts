@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, DoCheck } from '@angular/core';
 import { UserService } from './services/user.service';
 
 @Component({
@@ -6,7 +6,7 @@ import { UserService } from './services/user.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, DoCheck {
   title = 'videos-angular';
   public token: string;
   public identity: any;
@@ -20,6 +20,10 @@ export class AppComponent implements OnInit {
 
 
   ngOnInit(): void {
+    
+  }
+
+  ngDoCheck(): void {
     this.loadUser();
   }
 
