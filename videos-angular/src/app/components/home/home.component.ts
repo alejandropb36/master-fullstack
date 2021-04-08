@@ -10,13 +10,16 @@ export class HomeComponent implements OnInit {
 
   public pageTitle: string;
   public identity: any;
+  public token: string;
 
   constructor(private userService: UserService) {
     this.pageTitle = 'Inicio';
+    this.token = '';
   }
 
   ngOnInit(): void {
     this.identity = this.userService.getIdentity();
+    this.token = this.userService.getToken();
   }
 
 }
