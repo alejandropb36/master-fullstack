@@ -47,4 +47,12 @@ export class UserService {
     }
     return null;
   }
+
+  update(user: User, token: string): Observable<any> {
+    const url: string = this.apiUrl + 'user/edit';
+    const headers: HttpHeaders = new HttpHeaders().set('Content-Type', 'aplication/json')
+      .set('Authorization', token);
+
+    return this.httpClient.put(url, user, {headers});
+  }
 }

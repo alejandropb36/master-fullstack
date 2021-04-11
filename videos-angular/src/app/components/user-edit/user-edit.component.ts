@@ -33,19 +33,22 @@ export class UserEditComponent implements OnInit {
 
   onSubmit(form: NgForm): void {
     console.log(this.user);
-    // this.userService.register(this.user).subscribe(
-    //   response => {
-    //     console.log(response);
-    //     this.status = response.status;
-    //     if (this.status === 'success') {
-    //       form.reset();
-    //     }
-    //   },
-    //   error => {
-    //     this.status = 'error';
-    //     console.log(error);
-    //   }
-    // );
+    this.userService.update(this.user, this.token).subscribe(
+      response => {
+        console.log(response);
+        this.status = response.status;
+        if (this.status === 'success') {
+          this.identity = response.user;
+          this.user = response.user;
+
+          localStorage.setItem('identity', JSON.stringify(this.identity));
+        }
+      },
+      error => {
+        this.status = 'error';
+        console.log(error);
+      }
+    );
   }
 
 }
