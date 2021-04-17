@@ -10,6 +10,10 @@
 
             <div class="card-body">
                 <!-- Miniatura -->
+                <div class="video-image w-100" *ngIf="video.url">
+                    <img [src]="getThumb(video.url)" class="w-100">
+
+                </div>
 
                 <!-- botones -->
                 <div class="video-buttons mt-3">

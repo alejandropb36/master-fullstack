@@ -20,7 +20,7 @@ export class HomeComponent implements OnInit {
   constructor(
     private userService: UserService,
     private videoService: VideoService
-    ) {
+  ) {
     this.pageTitle = 'Inicio';
     this.token = '';
     this.status = '';
@@ -47,7 +47,26 @@ export class HomeComponent implements OnInit {
         this.status = 'error';
       }
     );
-    
+
+  }
+
+  getThumb(url: string, size: string) {
+    var video, results, thumburl;
+
+    if (url === null) {
+      return '';
+    }
+
+    results = url.match('[\\?&]v=([^&#]*)');
+    video = (results === null) ? url : results[1];
+
+    if (size != null) {
+      thumburl = 'http://img.youtube.com/vi/' + video + '/' + size + '.jpg';
+    } else {
+      thumburl = 'http://img.youtube.com/vi/' + video + '/mqdefault.jpg';
+    }
+
+    return thumburl;
   }
 
 }

@@ -167,6 +167,7 @@ class Video implements \JsonSerializable
             'id' => $this->id,
             'user' => $this->user,
             'title' => $this->title,
+            'url' => $this->url,
             'description' => $this->description,
             'status' => $this->status,
             'createdAt' => $this->createdAt,
