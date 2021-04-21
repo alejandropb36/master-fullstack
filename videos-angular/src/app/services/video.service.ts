@@ -23,8 +23,11 @@ export class VideoService {
     return this.httpClient.post(url, video, {headers});
   }
 
-  getVideos(token: string): Observable<any> {
-    const url = this.apiUrl + 'videos';
+  getVideos(token: string, page?: number): Observable<any> {
+    if (!page) {
+      page = 1;
+    }
+    const url = this.apiUrl + 'videos?page=' + page;
     const headers = new HttpHeaders().set('Content-Type', 'application/json')
       .set('Authorization', token);
 
