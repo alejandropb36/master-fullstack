@@ -62,6 +62,19 @@ export class HomeComponent implements OnInit {
           }
           this.number_pages = number_pages;
 
+          if (page >= 2) {
+            this.prev_page = page - 1;
+          } else {
+            this.prev_page = 1;
+          }
+
+          if (page < response.pagination.totalPages) {
+            this.next_page = page + 1;
+          } else {
+            this.next_page = response.pagination.totalPages;
+          }
+
+
           // pagination: {total: 20, page: 1, itemsPerPage: 5, totalPages: 4}
           // itemsPerPage: 5
           // page: 1
