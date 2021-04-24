@@ -20,7 +20,7 @@ export class HomeComponent implements OnInit {
   public page: number;
   public next_page: number;
   public prev_page: number;
-  public number_pages: number;
+  public number_pages: number[];
 
   constructor(
     private userService: UserService,
@@ -56,7 +56,17 @@ export class HomeComponent implements OnInit {
       response => {
         this.status = response.status;
         if (this.status === 'success') {
-          this.pagination = response.pagination;
+          const number_pages = [];
+          for (var i = 1; i <= response.pagination.totalPages; i++) {
+            number_pages.push(i);
+          }
+          this.number_pages = number_pages;
+
+          // pagination: {total: 20, page: 1, itemsPerPage: 5, totalPages: 4}
+          // itemsPerPage: 5
+          // page: 1
+          // total: 20
+          // totalPages: 4
           this.videos = response.videos;
           console.log(this.videos);
         }
