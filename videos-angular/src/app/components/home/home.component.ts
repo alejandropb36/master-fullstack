@@ -31,6 +31,7 @@ export class HomeComponent implements OnInit {
     this.pageTitle = 'Inicio';
     this.token = '';
     this.status = '';
+    this.page = 1;
   }
 
   ngOnInit(): void {
@@ -42,7 +43,8 @@ export class HomeComponent implements OnInit {
         this.prev_page = 1;
         this.next_page = 2;
       }
-      this.getVideos(page);
+      this.page = page;
+      this.getVideos(this.page);
     });
   }
 
@@ -74,12 +76,6 @@ export class HomeComponent implements OnInit {
             this.next_page = response.pagination.totalPages;
           }
 
-
-          // pagination: {total: 20, page: 1, itemsPerPage: 5, totalPages: 4}
-          // itemsPerPage: 5
-          // page: 1
-          // total: 20
-          // totalPages: 4
           this.videos = response.videos;
           console.log(this.videos);
         }
@@ -90,6 +86,18 @@ export class HomeComponent implements OnInit {
       }
     );
 
+  }
+
+  deleteVideo(id: number): void {
+    console.log(id);
+    this.videoService.delete(id, this.token).subscribe(
+      response => {
+        this.getVideos(this.page);
+      },
+      error => {
+        console.log(error);
+      }
+    );
   }
 
   getThumb(url: string, size: string) {

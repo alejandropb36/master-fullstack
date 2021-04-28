@@ -19,7 +19,32 @@
                 <div class="video-buttons mt-3">
                     <a href="" class="btn btn-success mr-2">Leer</a>
                     <a href="" class="btn btn-warning mr-2">Editar</a>
-                    <a href="" class="btn btn-danger mr-2">Borrar</a>
+                    <!-- <a (click)="deleteVideo(video.id)" class="btn btn-danger mr-2">Borrar</a> -->
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-danger" data-toggle="modal" [attr.data-target]="'#borrar' + video.id">
+                        Borrar
+                    </button>
+                    
+                    <!-- Modal -->
+                    <div class="modal fade" [id]="'borrar' + video.id" tabindex="-1" role="dialog" [attr.aria-labelledby]="'borrar' + video.id" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Seguro que quieres borrar este video?</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                            <div class="modal-body">
+                                Vas a borrar para siempre el video: {{video.id + ' - ' + video.title}}
+                            </div>
+                            <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" >Close</button>
+                            <button type="button" class="btn btn-danger" (click)="deleteVideo(video.id)" data-dismiss="modal">Borrar</button>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
